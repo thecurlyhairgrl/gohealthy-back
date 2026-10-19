@@ -8,6 +8,7 @@ import dashboardRoutes from './dashboard.routes.js'
 import authRoutes from './auth.routes.js'
 import patientRoutes from './patient.routes.js'
 import onboardingRoutes from './onboarding.routes.js'
+import consultatonRoutes from './consultation.routes.js'
 
 const router = Router()
 
@@ -24,5 +25,6 @@ router.use('/dashboard', dashboardRoutes)
 router.use('/auth', authRoutes)
 router.use('/patient', patientRoutes)
 router.use('/onboarding', onboardingRoutes)
+router.use('/consultation', consultatonRoutes)
 
 export default router
