@@ -1,0 +1,667 @@
+{
+  "info": {
+    "_postman_id": "a34c57e6-b971-417b-98af-efb75fbf9449",
+    "name": "GoHealthy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53693242",
+    "_collection_link": "https://go.postman.co/collection/53693242-a34c57e6-b971-417b-98af-efb75fbf9449?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Appointment",
+      "item": [
+        {
+          "name": "Agenda del nutriólogo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/appointments?nutritionistId={{nutritionistId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ],
+              "query": [
+                {
+                  "key": "nutritionistId",
+                  "value": "{{nutritionistId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Citas del paciente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/appointments?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detalle de cita",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{appointmentId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear cita",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('appointmentId',pm.response.json()._id)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"nutritionistId\": \"{{nutritionistId}}\",\r\n \"patientId\": \"{{patientId}}\",\r\n \"dateTime\": \"2026-10-24T16:00:00.000Z\",\r\n \"durationMin\": 60,\r\n \"reason\": \"Seguimiento\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reprogramar cita",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"dateTime\": \"2026-10-25T17:00:00.000Z\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{appointmentId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Agregar notas a cita",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"notes\": \"Traer estudios de laboratorio\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{appointmentId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Progreso del paciente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/progress?patientId={{patientId}}&days=90",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "dashboard",
+                "progress"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                },
+                {
+                  "key": "days",
+                  "value": "90"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Lab-Document",
+      "item": [
+        {
+          "name": "Listar documentos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subir documento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('labDocumentId',pm.response.json()._id)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Química sanguínea",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/leogg/Downloads/GUIA-LEO-GOHEALTHY-BACK.pdf"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Descargar documento",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents/{{labDocumentId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents",
+                "{{labDocumentId}}",
+                "file"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Borrar documento",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Química sanguínea",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/leogg/Downloads/A2.2Comparacion de Modelos de Negocio-Equipo5.pdf"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents/{{labDocumentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents",
+                "{{labDocumentId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Measurement",
+      "item": [
+        {
+          "name": "Listar mediciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/measurements?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear medición",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('measurementId', pm.response.json()._id)"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"patientId\": \"{{patientId}}\",\r\n \"date\": \"2026-10-17\",\r\n \"weightKg\": 82.5,\r\n \"waistCm\": 94,\r\n \"hipCm\": 102\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Editar medición",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"date\": \"2026-10-17\",\r\n \"weightKg\": 82,\r\n \"waistCm\": 93,\r\n \"hipCm\": 102,\r\n \"notes\": \"Corrección del peso\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/measurements/{{measurementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements",
+                "{{measurementId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Borrar medición",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/measurements/{{measurementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements",
+                "{{measurementId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Message",
+      "item": [
+        {
+          "name": "Ver conversación",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/messages?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mensajes sin leer (nutriólogo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/messages/unread-count?userId={{nutritionistId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages",
+                "unread-count"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "{{nutritionistId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Paciente envía mensaje",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"senderId\": \"{{patientId}}\",\r\n \"subject\": \"Duda con el plan\",\r\n \"body\": \"¿Puedo cambiar la fruta de la colación?\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Nutriólogo envía mensaje",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"senderId\": \"{{nutritionistId}}\",\r\n \"patientId\": \"{{patientId}}\",\r\n \"subject\": \"Re: Duda con el plan\",\r\n \"body\": \"Sí, cualquier fruta de la lista de equivalentes.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Nutriólogo marca como leído",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/messages/read?patientId={{patientId}}&userId={{nutritionistId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages",
+                "read"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                },
+                {
+                  "key": "userId",
+                  "value": "{{nutritionistId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Wellness-Survey",
+      "item": [
+        {
+          "name": "Listar encuestas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wellness-surveys?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wellness-surveys"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear encuesta",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"patientId\": \"{{patientId}}\",\r\n \"date\": \"2026-10-17\",\r\n \"mood\": 4,\r\n \"sleepHours\": 7.5,\r\n \"waterGlasses\": 8,\r\n \"activityMinutes\": 30,\r\n \"planAdherence\": 85\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/wellness-surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wellness-surveys"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "nutritionistId",
+      "value": ""
+    },
+    {
+      "key": "patientId",
+      "value": ""
+    },
+    {
+      "key": "measurementId",
+      "value": ""
+    },
+    {
+      "key": "labDocumentId",
+      "value": "6ad569f869860f35c8941fa4"
+    },
+    {
+      "key": "appointmentId",
+      "value": ""
+    }
+  ]
+}
