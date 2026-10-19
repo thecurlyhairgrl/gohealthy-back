@@ -6,7 +6,7 @@ import appointmentRoutes from './appointment.routes.js'
 import messageRoutes from './message.routes.js'
 import dashboardRoutes from './dashboard.routes.js'
 import authRoutes from './auth.routes.js'
-import patientRoutes from './patient.routes.js'
+import patientRoutes from './patients.routes.js'
 import onboardingRoutes from './onboarding.routes.js'
 import consultatonRoutes from './consultation.routes.js'
 
@@ -23,8 +23,8 @@ router.use('/appointments', appointmentRoutes)
 router.use('/messages', messageRoutes)
 router.use('/dashboard', dashboardRoutes)
 router.use('/auth', authRoutes)
-router.use('/patient', patientRoutes)
+router.use('/patients', patientRoutes)
 router.use('/onboarding', onboardingRoutes)
-router.use('/consultation', consultatonRoutes)
+router.use('/consultations', consultatonRoutes)
 
 export default router
