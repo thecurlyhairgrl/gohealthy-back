@@ -1,50 +1,1216 @@
 {
   "info": {
-    "_postman_id": "a34c57e6-b971-417b-98af-efb75fbf9449",
+    "_postman_id": "70c722bb-81ef-4176-9dd7-07dab558e094",
     "name": "GoHealthy API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "53693242",
-    "_collection_link": "https://go.postman.co/collection/53693242-a34c57e6-b971-417b-98af-efb75fbf9449?source=collection_link"
+    "description": "Ejecutar las carpetas en orden (00 → 12). Los tokens e ids se guardan solos en las variables de la colección. Ver GUIA-PRUEBAS-ENDPOINTS.md.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Appointment",
+      "name": "00 · Salud del servidor",
       "item": [
         {
-          "name": "Agenda del nutriólogo",
+          "name": "Bienvenida",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/appointments?nutritionistId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": []
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ruta inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/no-existe",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "appointments"
+                "no-existe"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "01 · Auth nutriólogo",
+      "item": [
+        {
+          "name": "Registrar nutriólogo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
               ],
-              "query": [
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ana\",\n  \"paternalLastName\": \"López\",\n  \"maternalLastName\": \"Ruiz\",\n  \"email\": \"{{nutritionistEmail}}\",\n  \"password\": \"{{nutritionistPassword}}\",\n  \"phone\": \"5512345678\",\n  \"professionalLicense\": \"1234567\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Correo único en cada corrida para poder repetir la colección",
+                  "pm.collectionVariables.set('nutritionistEmail', `nutri.${Date.now()}@gohealthy.test`);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('nutritionistToken', pm.response.json().token);",
+                  "pm.collectionVariables.set('nutritionistId', pm.response.json().user.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registro duplicado (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ana\",\n  \"paternalLastName\": \"López\",\n  \"email\": \"{{nutritionistEmail}}\",\n  \"password\": \"{{nutritionistPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registro con contraseña corta (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ana\",\n  \"paternalLastName\": \"López\",\n  \"email\": \"corta@gohealthy.test\",\n  \"password\": \"123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login nutriólogo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{nutritionistEmail}}\",\n  \"password\": \"{{nutritionistPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('nutritionistToken', pm.response.json().token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login con contraseña incorrecta (401)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{nutritionistEmail}}\",\n  \"password\": \"incorrecta123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Mi perfil (nutriólogo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "nutritionistId",
-                  "value": "{{nutritionistId}}"
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
                 }
               ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Rol nutritionist', () => pm.expect(pm.response.json().role).to.eql('nutritionist'));"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Citas del paciente",
+          "name": "Mi perfil sin token (401)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/appointments?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/auth/me",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "appointments"
+                "auth",
+                "me"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "02 · Pacientes (nutriólogo)",
+      "item": [
+        {
+          "name": "Crear paciente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/patients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Carla\",\n  \"paternalLastName\": \"Pérez\",\n  \"maternalLastName\": \"Soto\",\n  \"email\": \"{{patientEmail}}\",\n  \"phone\": \"5598765432\",\n  \"birthDate\": \"1995-04-12\",\n  \"sex\": \"female\",\n  \"reasonForVisit\": \"Bajar de peso\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Si patientEmailBase es un Gmail real (ej. tucorreo@gmail.com) se usa un alias +p<timestamp>",
+                  "// para que cada corrida cree un paciente nuevo y la contraseña temporal llegue a tu bandeja.",
+                  "const base = pm.collectionVariables.get('patientEmailBase') || 'paciente@gohealthy.test';",
+                  "const [user, domain] = base.split('@');",
+                  "pm.collectionVariables.set('patientEmail', `${user}+p${Date.now()}@${domain}`);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('patientId', pm.response.json().patient._id);",
+                  "console.log('emailSent:', pm.response.json().emailSent, '→ contraseña temporal enviada a', pm.collectionVariables.get('patientEmail'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear paciente sin datos (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/patients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar pacientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Incluye adherencia', () => pm.expect(pm.response.json()[0]).to.have.property('adherence'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar pacientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients?search=carla",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "carla"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar incluyendo inactivos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients?includeInactive=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients"
+              ],
+              "query": [
+                {
+                  "key": "includeInactive",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle de paciente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle con id inválido (400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients/123",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "123"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar paciente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"5511112222\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver historia clínica",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}/clinical-history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}",
+                "clinical-history"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar historia clínica",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}/clinical-history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}",
+                "clinical-history"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reasonForVisit\": \"Control de peso\",\n  \"goals\": [\n    \"Bajar 5 kg\"\n  ],\n  \"pathologicalHistory\": {\n    \"allergies\": [\n      \"Nuez\"\n    ]\n  },\n  \"nonPathologicalHistory\": {\n    \"smoking\": false,\n    \"alcoholConsumption\": \"occasional\",\n    \"sleepHours\": 7\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Adherencia (aún sin encuestas)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}/adherence",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}",
+                "adherence"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reenviar acceso",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}/resend-access",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}",
+                "resend-access"
+              ]
+            },
+            "description": "Genera una NUEVA contraseña temporal y la manda por correo. Responde 502 si el servidor no tiene EMAIL_USER/EMAIL_APP_PASSWORD. Si lo ejecutas, usa la contraseña del correo más reciente en el paso 03."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 (correo enviado) o 502 (sin SMTP)', () => pm.expect(pm.response.code).to.be.oneOf([200, 502]));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "03 · Paciente: primer acceso y onboarding",
+      "item": [
+        {
+          "name": "Login paciente (contraseña temporal)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"password\": \"{{patientTempPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "ANTES de enviar: copia la contraseña temporal del correo de bienvenida a la variable patientTempPassword."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('patientToken', pm.response.json().token);",
+                  "pm.test('Debe cambiar contraseña', () => pm.expect(pm.response.json().user.mustChangePassword).to.be.true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver onboarding",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/onboarding",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "onboarding"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Onboarding antes de cambiar contraseña (403)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/onboarding",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "onboarding"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"goals\": [\n    \"x\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cambiar contraseña",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"{{patientTempPassword}}\",\n  \"newPassword\": \"{{patientPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Completar onboarding",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/onboarding",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "onboarding"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identification\": {\n    \"birthDate\": \"1995-04-12\",\n    \"sex\": \"female\",\n    \"occupation\": \"Ingeniera\",\n    \"address\": {\n      \"city\": \"CDMX\",\n      \"state\": \"CDMX\"\n    }\n  },\n  \"goals\": [\n    \"Bajar 5 kg\",\n    \"Dormir mejor\"\n  ],\n  \"familyHistory\": [\n    {\n      \"condition\": \"Diabetes\",\n      \"relationship\": \"Padre\"\n    }\n  ],\n  \"eatingHabits\": {\n    \"mealsPerDay\": 4,\n    \"eatsOut\": true,\n    \"preferredFoods\": [\n      \"Pollo\"\n    ],\n    \"dislikedFoods\": [\n      \"Hígado\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Mi perfil (paciente)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Onboarding completado', () => pm.expect(pm.response.json().onboardingCompleted).to.be.true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente intenta ver /patients (403)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "04 · Mediciones",
+      "item": [
+        {
+          "name": "Crear medición",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"2026-10-01\",\n  \"weightKg\": 72.5,\n  \"waistCm\": 84,\n  \"hipCm\": 100,\n  \"bodyFatPct\": 30\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('measurementId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear segunda medición",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"weightKg\": 70.8,\n  \"waistCm\": 82,\n  \"hipCm\": 99\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Medición sin peso (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar mediciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/measurements?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
               ],
               "query": [
                 {
@@ -54,124 +1220,405 @@
               ]
             }
           },
-          "response": []
-        },
-        {
-          "name": "Detalle de cita",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "appointments",
-                "{{appointmentId}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Crear cita",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.collectionVariables.set('appointmentId',pm.response.json()._id)"
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
                 ]
               }
             }
-          ],
+          ]
+        },
+        {
+          "name": "Editar medición (body completo)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/measurements/{{measurementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements",
+                "{{measurementId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2026-10-01\",\n  \"weightKg\": 72,\n  \"waistCm\": 83,\n  \"hipCm\": 100,\n  \"bodyFatPct\": 30,\n  \"notes\": \"Corrección del peso\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Hay que mandar TODOS los campos: los que se omiten se borran (ver bug en la guía)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear medición para borrar",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
             "body": {
               "mode": "raw",
-              "raw": "{\r\n \"nutritionistId\": \"{{nutritionistId}}\",\r\n \"patientId\": \"{{patientId}}\",\r\n \"dateTime\": \"2026-10-24T16:00:00.000Z\",\r\n \"durationMin\": 60,\r\n \"reason\": \"Seguimiento\"\r\n}\r\n",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"weightKg\": 99\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/appointments",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "appointments"
-              ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('measurementToDeleteId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Reprogramar cita",
+          "name": "Borrar medición",
           "request": {
-            "method": "PUT",
+            "method": "DELETE",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{ \"dateTime\": \"2026-10-25T17:00:00.000Z\" }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
-              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+              "raw": "{{baseUrl}}/measurements/{{measurementToDeleteId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "appointments",
-                "{{appointmentId}}"
+                "measurements",
+                "{{measurementToDeleteId}}"
               ]
             }
           },
-          "response": []
-        },
-        {
-          "name": "Agregar notas a cita",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{ \"notes\": \"Traer estudios de laboratorio\" }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
               }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "appointments",
-                "{{appointmentId}}"
-              ]
             }
-          },
-          "response": []
+          ]
         }
-      ]
+      ],
+      "auth": {
+        "type": "noauth"
+      }
     },
     {
-      "name": "Dashboard",
+      "name": "05 · Encuestas de bienestar",
       "item": [
         {
-          "name": "Progreso del paciente",
+          "name": "Crear encuesta de hoy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/wellness-surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wellness-surveys"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7.5,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90,\n  \"comment\": \"Buen día\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Fecha local AAAA-MM-DD (toISOString daría el día siguiente en la noche en México)",
+                  "const pad = (v) => String(v).padStart(2, '0');",
+                  "const d = (n) => { const x = new Date(Date.now() - n * 864e5); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}` };",
+                  "pm.collectionVariables.set('today', d(0));",
+                  "pm.collectionVariables.set('yesterday', d(1));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear encuesta de ayer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/wellness-surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wellness-surveys"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{yesterday}}\",\n  \"mood\": 3,\n  \"sleepHours\": 6,\n  \"waterGlasses\": 5,\n  \"activityMinutes\": 15,\n  \"planAdherence\": 60\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Encuesta duplicada del mismo día (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/wellness-surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wellness-surveys"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Encuesta con fecha mal formada (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/wellness-surveys",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wellness-surveys"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"19/10/2026\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar encuestas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wellness-surveys?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "wellness-surveys"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Adherencia con encuestas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}/adherence?days=7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}",
+                "adherence"
+              ],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "7"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Tiene score', () => pm.expect(pm.response.json().score).to.be.a('number'));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "06 · Dashboard",
+      "item": [
+        {
+          "name": "Progreso del paciente (90 días)",
           "request": {
             "method": "GET",
             "header": [],
@@ -196,264 +1643,698 @@
               ]
             }
           },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Lab-Document",
-      "item": [
-        {
-          "name": "Listar documentos",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/lab-documents?patientId={{patientId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lab-documents"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Subir documento",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.collectionVariables.set('labDocumentId',pm.response.json()._id)"
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
                 ]
               }
             }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}",
-                  "type": "text"
-                },
-                {
-                  "key": "description",
-                  "value": "Química sanguínea",
-                  "type": "text"
-                },
-                {
-                  "key": "file",
-                  "type": "file",
-                  "src": [
-                    "/C:/Users/leogg/Downloads/GUIA-LEO-GOHEALTHY-BACK.pdf"
-                  ]
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/lab-documents",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lab-documents"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Descargar documento",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "formdata",
-              "formdata": []
-            },
-            "url": {
-              "raw": "{{baseUrl}}/lab-documents/{{labDocumentId}}/file",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lab-documents",
-                "{{labDocumentId}}",
-                "file"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Borrar documento",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}",
-                  "type": "text"
-                },
-                {
-                  "key": "description",
-                  "value": "Química sanguínea",
-                  "type": "text"
-                },
-                {
-                  "key": "file",
-                  "type": "file",
-                  "src": [
-                    "/C:/Users/leogg/Downloads/A2.2Comparacion de Modelos de Negocio-Equipo5.pdf"
-                  ]
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/lab-documents/{{labDocumentId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lab-documents",
-                "{{labDocumentId}}"
-              ]
-            }
-          },
-          "response": []
+          ]
         }
-      ]
+      ],
+      "auth": {
+        "type": "noauth"
+      }
     },
     {
-      "name": "Measurement",
+      "name": "07 · Citas",
       "item": [
         {
-          "name": "Listar mediciones",
+          "name": "Crear cita",
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/measurements?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/appointments",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "measurements"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
+                "appointments"
               ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Crear medición",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.collectionVariables.set('measurementId', pm.response.json()._id)"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
+            },
             "body": {
               "mode": "raw",
-              "raw": "{\r\n \"patientId\": \"{{patientId}}\",\r\n \"date\": \"2026-10-17\",\r\n \"weightKg\": 82.5,\r\n \"waistCm\": 94,\r\n \"hipCm\": 102\r\n}\r\n",
+              "raw": "{\n  \"nutritionistId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-03T16:00:00.000Z\",\n  \"durationMin\": 60,\n  \"reason\": \"Primera consulta\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
-            },
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('appointmentId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Agenda del nutriólogo",
+          "request": {
+            "method": "GET",
+            "header": [],
             "url": {
-              "raw": "{{baseUrl}}/measurements",
+              "raw": "{{baseUrl}}/appointments?nutritionistId={{nutritionistId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "measurements"
+                "appointments"
+              ],
+              "query": [
+                {
+                  "key": "nutritionistId",
+                  "value": "{{nutritionistId}}"
+                }
               ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Editar medición",
+          "name": "Citas del paciente (rango de fechas)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/appointments?patientId={{patientId}}&from=2026-11-01&to=2026-11-30",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                },
+                {
+                  "key": "from",
+                  "value": "2026-11-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2026-11-30"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle de cita",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{appointmentId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reprogramar cita",
           "request": {
             "method": "PUT",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{appointmentId}}"
+              ]
+            },
             "body": {
               "mode": "raw",
-              "raw": "{\r\n \"date\": \"2026-10-17\",\r\n \"weightKg\": 82,\r\n \"waistCm\": 93,\r\n \"hipCm\": 102,\r\n \"notes\": \"Corrección del peso\"\r\n}\r\n",
+              "raw": "{\n  \"dateTime\": \"2026-11-04T17:00:00.000Z\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/measurements/{{measurementId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "measurements",
-                "{{measurementId}}"
-              ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Queda rescheduled', () => pm.expect(pm.response.json().status).to.eql('rescheduled'));"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Borrar medición",
+          "name": "Agregar notas a cita",
           "request": {
-            "method": "DELETE",
-            "header": [],
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/measurements/{{measurementId}}",
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "measurements",
-                "{{measurementId}}"
+                "appointments",
+                "{{appointmentId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Traer estudios de laboratorio\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear cita para cancelar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nutritionistId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-10T16:00:00.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('appointmentToCancelId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cancelar cita",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{appointmentToCancelId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{appointmentToCancelId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"cancelled\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "08 · Consultas (nutriólogo)",
+      "item": [
+        {
+          "name": "Crear consulta ligada a la cita",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/consultations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultations"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"appointmentId\": \"{{appointmentId}}\",\n  \"measurements\": {\n    \"weightKg\": 70.2,\n    \"heightCm\": 165,\n    \"waistCm\": 82\n  },\n  \"energyCalculation\": {\n    \"formula\": \"mifflin-st-jeor\",\n    \"activityFactor\": 1.4,\n    \"targetKcal\": 1600\n  },\n  \"diagnosis\": \"Sobrepeso grado I\",\n  \"instructions\": \"Plan de 1600 kcal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('consultationId', pm.response.json()._id);",
+                  "pm.test('Calcula IMC', () => pm.expect(pm.response.json().measurements.bmi).to.eql(25.8));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "La cita quedó como completed",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{appointmentId}}"
               ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Status completed', () => pm.expect(pm.response.json().status).to.eql('completed'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar consultas del paciente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultations?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultations"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle de consulta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultations/{{consultationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultations",
+                "{{consultationId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar consulta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/consultations/{{consultationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultations",
+                "{{consultationId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"measurements\": {\n    \"weightKg\": 69.5,\n    \"heightCm\": 165\n  },\n  \"notes\": \"Mejoría\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultas sin token (401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultations?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultations"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultas como paciente (403)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultations?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultations"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
         }
-      ]
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
-      "name": "Message",
+      "name": "09 · Mensajes",
       "item": [
+        {
+          "name": "Paciente envía mensaje",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senderId\": \"{{patientId}}\",\n  \"subject\": \"Duda con el plan\",\n  \"body\": \"¿Puedo cambiar la fruta de la colación?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nutriólogo responde",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senderId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"subject\": \"Re: Duda con el plan\",\n  \"body\": \"Sí, cualquier fruta de la lista de equivalentes.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
         {
           "name": "Ver conversación",
           "request": {
@@ -475,7 +2356,17 @@
               ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Mensajes sin leer (nutriólogo)",
@@ -499,59 +2390,18 @@
               ]
             }
           },
-          "response": []
-        },
-        {
-          "name": "Paciente envía mensaje",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n \"senderId\": \"{{patientId}}\",\r\n \"subject\": \"Duda con el plan\",\r\n \"body\": \"¿Puedo cambiar la fruta de la colación?\"\r\n}\r\n",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Hay 1 sin leer', () => pm.expect(pm.response.json().unread).to.eql(1));"
+                ]
               }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/messages",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messages"
-              ]
             }
-          },
-          "response": []
-        },
-        {
-          "name": "Nutriólogo envía mensaje",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n \"senderId\": \"{{nutritionistId}}\",\r\n \"patientId\": \"{{patientId}}\",\r\n \"subject\": \"Re: Duda con el plan\",\r\n \"body\": \"Sí, cualquier fruta de la lista de equivalentes.\"\r\n}\r\n",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/messages",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messages"
-              ]
-            }
-          },
-          "response": []
+          ]
         },
         {
           "name": "Nutriólogo marca como leído",
@@ -579,25 +2429,127 @@
               ]
             }
           },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Wellness-Survey",
-      "item": [
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
         {
-          "name": "Listar encuestas",
+          "name": "Sin leer tras marcar",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/wellness-surveys?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/messages/unread-count?userId={{nutritionistId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "wellness-surveys"
+                "messages",
+                "unread-count"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "{{nutritionistId}}"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('0 sin leer', () => pm.expect(pm.response.json().unread).to.eql(0));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "10 · Documentos de laboratorio",
+      "item": [
+        {
+          "name": "Subir documento (PDF)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Química sanguínea",
+                  "type": "text"
+                },
+                {
+                  "key": "studyDate",
+                  "value": "2026-10-01",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "description": "En la pestaña Body, en el campo 'file', selecciona cualquier PDF/JPG/PNG de tu computadora."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('labDocumentId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar documentos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents"
               ],
               "query": [
                 {
@@ -607,40 +2559,511 @@
               ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Crear encuesta",
+          "name": "Descargar documento",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents/{{labDocumentId}}/file",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents",
+                "{{labDocumentId}}",
+                "file"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar documento",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents/{{labDocumentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents",
+                "{{labDocumentId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "11 · Recuperar contraseña (paciente)",
+      "item": [
+        {
+          "name": "Olvidé mi contraseña",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/forgot-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forgot-password"
+              ]
+            },
             "body": {
               "mode": "raw",
-              "raw": "{\r\n \"patientId\": \"{{patientId}}\",\r\n \"date\": \"2026-10-17\",\r\n \"mood\": 4,\r\n \"sleepHours\": 7.5,\r\n \"waterGlasses\": 8,\r\n \"activityMinutes\": 30,\r\n \"planAdherence\": 85\r\n}\r\n",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verificar código",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-otp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"code\": \"{{otpCode}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
+            "description": "ANTES de enviar: copia el código de 6 dígitos del correo a la variable otpCode."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Restablecer contraseña",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/wellness-surveys",
+              "raw": "{{baseUrl}}/auth/reset-password",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "wellness-surveys"
+                "auth",
+                "reset-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"code\": \"{{otpCode}}\",\n  \"newPassword\": \"{{patientPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login con la contraseña restablecida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"password\": \"{{patientPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "12 · Desactivar paciente",
+      "item": [
+        {
+          "name": "Desactivar paciente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"active\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
               ]
             }
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login de paciente inactivo (403)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{patientEmail}}\",\n  \"password\": \"{{patientPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reactivar paciente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
         }
-      ]
+      ],
+      "auth": {
+        "type": "noauth"
+      }
+    },
+    {
+      "name": "99 · SMAE (pendiente — no ejecutar)",
+      "item": [
+        {
+          "name": "Grupos SMAE",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/smae/groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "smae",
+                "groups"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Alimentos SMAE",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/smae/foods?search=manzana&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "smae",
+                "foods"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "manzana"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "description": "Pendiente: falta montar smae.routes.js en routes/index.js y el script de importación del CSV. Hoy responde 404."
     }
   ],
   "variable": [
     {
       "key": "baseUrl",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "nutritionistEmail",
+      "value": ""
+    },
+    {
+      "key": "nutritionistPassword",
+      "value": "Password123"
+    },
+    {
+      "key": "patientEmailBase",
+      "value": ""
+    },
+    {
+      "key": "patientEmail",
+      "value": ""
+    },
+    {
+      "key": "patientTempPassword",
+      "value": ""
+    },
+    {
+      "key": "patientPassword",
+      "value": "NuevaPass123"
+    },
+    {
+      "key": "otpCode",
+      "value": ""
+    },
+    {
+      "key": "nutritionistToken",
+      "value": ""
+    },
+    {
+      "key": "patientToken",
       "value": ""
     },
     {
@@ -656,11 +3079,31 @@
       "value": ""
     },
     {
-      "key": "labDocumentId",
-      "value": "6ad569f869860f35c8941fa4"
+      "key": "measurementToDeleteId",
+      "value": ""
     },
     {
       "key": "appointmentId",
+      "value": ""
+    },
+    {
+      "key": "appointmentToCancelId",
+      "value": ""
+    },
+    {
+      "key": "consultationId",
+      "value": ""
+    },
+    {
+      "key": "labDocumentId",
+      "value": ""
+    },
+    {
+      "key": "today",
+      "value": ""
+    },
+    {
+      "key": "yesterday",
       "value": ""
     }
   ]
