@@ -1,13 +1,15 @@
 import { Router } from 'express'
+import { authenticate, authorize } from '../middlewares/auth.js'
 import {
     getWellnessSurveys,
-    createWellnessSurvey
+    createWellnessSurvey,
 } from '../controllers/wellness-survey.controller.js'
 
 const router = Router()
 
-router.get('/', getWellnessSurveys)
+router.use(authenticate)
 
-router.post('/', createWellnessSurvey)
+router.get('/', getWellnessSurveys)
+router.post('/', authorize('patient'), createWellnessSurvey)
 
 export default router

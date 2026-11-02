@@ -3,3 +3,7 @@ node_modules
 .DS_Store
 *.log
 uploads/
+
+# Catálogo SMAE: se queda local
+src/database/data/
+src/database/import-smae.js

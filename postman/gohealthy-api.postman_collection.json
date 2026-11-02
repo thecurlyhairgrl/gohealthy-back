@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "70c722bb-81ef-4176-9dd7-07dab558e094",
     "name": "GoHealthy API",
-    "description": "Ejecutar las carpetas en orden (00 → 12). Los tokens e ids se guardan solos en las variables de la colección. Ver GUIA-PRUEBAS-ENDPOINTS.md.",
+    "description": "Ejecutar las carpetas en orden (00 a 14). Los tokens e ids se guardan solos en las variables de la colección.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1096,7 +1096,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"2026-10-01\",\n  \"weightKg\": 72.5,\n  \"waistCm\": 84,\n  \"hipCm\": 100,\n  \"bodyFatPct\": 30\n}",
+              "raw": "{\n  \"date\": \"2026-10-01\",\n  \"weightKg\": 72.5,\n  \"waistCm\": 84,\n  \"hipCm\": 100,\n  \"bodyFatPct\": 30\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1138,7 +1138,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"weightKg\": 70.8,\n  \"waistCm\": 82,\n  \"hipCm\": 99\n}",
+              "raw": "{\n  \"weightKg\": 70.8,\n  \"waistCm\": 82,\n  \"hipCm\": 99\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1179,7 +1179,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\"\n}",
+              "raw": "{}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1205,18 +1205,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/measurements?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/measurements",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "measurements"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -1296,7 +1290,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"weightKg\": 99\n}",
+              "raw": "{\n  \"weightKg\": 99\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1347,7 +1341,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -1374,7 +1375,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7.5,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90,\n  \"comment\": \"Buen día\"\n}",
+              "raw": "{\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7.5,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90,\n  \"comment\": \"Buen día\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1428,7 +1429,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{yesterday}}\",\n  \"mood\": 3,\n  \"sleepHours\": 6,\n  \"waterGlasses\": 5,\n  \"activityMinutes\": 15,\n  \"planAdherence\": 60\n}",
+              "raw": "{\n  \"date\": \"{{yesterday}}\",\n  \"mood\": 3,\n  \"sleepHours\": 6,\n  \"waterGlasses\": 5,\n  \"activityMinutes\": 15,\n  \"planAdherence\": 60\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1469,7 +1470,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
+              "raw": "{\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1510,7 +1511,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"19/10/2026\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
+              "raw": "{\n  \"date\": \"19/10/2026\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1536,18 +1537,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/wellness-surveys?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/wellness-surveys",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "wellness-surveys"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -1611,7 +1606,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -1657,7 +1659,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -1684,7 +1693,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nutritionistId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-03T16:00:00.000Z\",\n  \"durationMin\": 60,\n  \"reason\": \"Primera consulta\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-03T16:00:00.000Z\",\n  \"durationMin\": 60,\n  \"reason\": \"Primera consulta\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1711,18 +1720,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/appointments?nutritionistId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/appointments",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "appointments"
-              ],
-              "query": [
-                {
-                  "key": "nutritionistId",
-                  "value": "{{nutritionistId}}"
-                }
               ]
             }
           },
@@ -1913,7 +1916,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nutritionistId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-10T16:00:00.000Z\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-10T16:00:00.000Z\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1978,7 +1981,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -2274,7 +2284,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"senderId\": \"{{patientId}}\",\n  \"subject\": \"Duda con el plan\",\n  \"body\": \"¿Puedo cambiar la fruta de la colación?\"\n}",
+              "raw": "{\n  \"subject\": \"Duda con el plan\",\n  \"body\": \"¿Puedo cambiar la fruta de la colación?\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2315,12 +2325,22 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"senderId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"subject\": \"Re: Duda con el plan\",\n  \"body\": \"Sí, cualquier fruta de la lista de equivalentes.\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"subject\": \"Re: Duda con el plan\",\n  \"body\": \"Sí, cualquier fruta de la lista de equivalentes.\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
             }
           },
           "event": [
@@ -2341,18 +2361,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/messages",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "messages"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -2374,18 +2388,22 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages/unread-count?userId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/messages/unread-count",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "messages",
                 "unread-count"
-              ],
-              "query": [
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "userId",
-                  "value": "{{nutritionistId}}"
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
                 }
               ]
             }
@@ -2409,7 +2427,7 @@
             "method": "PUT",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages/read?patientId={{patientId}}&userId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/messages/read?patientId={{patientId}}",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2421,10 +2439,16 @@
                 {
                   "key": "patientId",
                   "value": "{{patientId}}"
-                },
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "userId",
-                  "value": "{{nutritionistId}}"
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
                 }
               ]
             }
@@ -2447,18 +2471,22 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages/unread-count?userId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/messages/unread-count",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "messages",
                 "unread-count"
-              ],
-              "query": [
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "userId",
-                  "value": "{{nutritionistId}}"
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
                 }
               ]
             }
@@ -2478,7 +2506,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -2501,11 +2536,6 @@
             "body": {
               "mode": "formdata",
               "formdata": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}",
-                  "type": "text"
-                },
                 {
                   "key": "description",
                   "value": "Química sanguínea",
@@ -2544,18 +2574,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/lab-documents?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/lab-documents",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "lab-documents"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -2630,7 +2654,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -2965,7 +2996,184 @@
       }
     },
     {
-      "name": "99 · SMAE (pendiente — no ejecutar)",
+      "name": "13 · Seguridad",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "Sin token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente crea cita",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nutriólogo crea medición",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"weightKg\": 70}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nutriólogo sin patientId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "14 · Catálogo SMAE",
       "item": [
         {
           "name": "Grupos SMAE",
@@ -2981,16 +3189,38 @@
                 "smae",
                 "groups"
               ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Son 19 grupos', () => pm.expect(pm.response.json().length).to.eql(19));"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Alimentos SMAE",
+          "name": "Buscar alimentos",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/smae/foods?search=manzana&limit=20",
+              "raw": "{{baseUrl}}/smae/foods?search=tortilla&limit=20",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -3001,15 +3231,106 @@
               "query": [
                 {
                   "key": "search",
-                  "value": "manzana"
+                  "value": "tortilla"
                 },
                 {
                   "key": "limit",
                   "value": "20"
                 }
               ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Encuentra alimentos', () => pm.expect(pm.response.json().length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente también ve el catálogo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/smae/groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "smae",
+                "groups"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sin token (401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/smae/groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "smae",
+                "groups"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
         }
       ],
       "auth": {
@@ -3022,7 +3343,7 @@
           }
         ]
       },
-      "description": "Pendiente: falta montar smae.routes.js en routes/index.js y el script de importación del CSV. Hoy responde 404."
+      "description": "Antes de correr esta carpeta hay que cargar el catálogo con: pnpm import:smae"
     }
   ],
   "variable": [

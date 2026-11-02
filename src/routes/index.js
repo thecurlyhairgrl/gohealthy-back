@@ -9,6 +9,7 @@ import authRoutes from './auth.routes.js'
 import patientRoutes from './patients.routes.js'
 import onboardingRoutes from './onboarding.routes.js'
 import consultatonRoutes from './consultation.routes.js'
+import smaeRoutes from './smae.routes.js'
 
 const router = Router()
 
@@ -26,5 +27,6 @@ router.use('/auth', authRoutes)
 router.use('/patients', patientRoutes)
 router.use('/onboarding', onboardingRoutes)
 router.use('/consultations', consultatonRoutes)
+router.use('/smae', smaeRoutes)
 
 export default router
