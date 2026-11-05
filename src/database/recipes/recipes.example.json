@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Tacos de pollo con nopales",
+    "imageFile": "tacos-pollo-nopales.jpg",
+    "mealTimes": ["lunch", "dinner"],
+    "prepMinutes": 20,
+    "ingredients": [
+      { "name": "Pechuga de pollo sin piel cruda", "groupKey": "animal-very-low-fat", "equivalents": 3, "quantity": 90, "unit": "g" },
+      { "name": "Nopal cocido", "groupKey": "vegetables", "equivalents": 1, "quantity": 1, "unit": "pieza" },
+      { "name": "Tortilla de maíz", "groupKey": "cereals-no-fat", "equivalents": 2, "quantity": 2, "unit": "pieza" },
+      { "name": "Aceite de soya y algodón", "groupKey": "fats-no-protein", "equivalents": 1, "quantity": 1, "unit": "cucharadita" }
+    ],
+    "steps": [
+      "Corta la pechuga en tiras delgadas y sazónala con sal y pimienta.",
+      "Calienta el aceite en un sartén a fuego medio y cocina el pollo 8 minutos, hasta que no quede rosa por dentro.",
+      "Corta el nopal cocido en tiras y agrégalo al sartén por 2 minutos.",
+      "Calienta las tortillas y sirve el pollo con nopal sobre ellas."
+    ]
+  }
+]

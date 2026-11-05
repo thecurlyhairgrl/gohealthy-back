@@ -7,3 +7,7 @@ uploads/
 # Catálogo SMAE: se queda local
 src/database/data/
 src/database/import-smae.js
+src/database/import-recipes.js
+
+# Imágenes de recetas subidas desde la API
+public/images/recipes/uploads/

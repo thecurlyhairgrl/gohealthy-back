@@ -24,6 +24,7 @@ const smaeGroupSchema = new Schema(
         proteinG: { type: Number, required: true, min: 0 },
         lipidsG: { type: Number, required: true, min: 0 },
         carbohydratesG: { type: Number, required: true, min: 0 },
+        imageUrl: String,
     },
     { collection: 'smaeGroups' }
 );
