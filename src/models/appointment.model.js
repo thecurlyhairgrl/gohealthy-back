@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+export const APPOINTMENT_MODALITIES = ['in-person', 'video-call'];
 export const APPOINTMENT_STATUSES = ['scheduled', 'rescheduled', 'cancelled',
     'completed'];
 const appointmentSchema = new Schema(
@@ -8,6 +9,7 @@ const appointmentSchema = new Schema(
         dateTime: { type: Date, required: true },
         durationMin: { type: Number, default: 60, min: 15 },
         status: { type: String, enum: APPOINTMENT_STATUSES, default: 'scheduled' },
+        modality: { type: String, enum: APPOINTMENT_MODALITIES, default: 'in-person' },
         reason: { type: String, trim: true },
         notes: String,
         consultation: { type: Schema.Types.ObjectId, ref: 'Consultation' },

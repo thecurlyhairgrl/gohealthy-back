@@ -6,13 +6,11 @@ import { HttpError } from './http-error.js'
 export const IMAGES_DIR = path.join('public', 'images')
 
 const ALLOWED_FORMATS = ['jpeg', 'png', 'webp']
-const MIN_WIDTH = 600
-const MIN_HEIGHT = 450
-const WIDTH = 800
-const HEIGHT = 600
+const DEFAULT_SIZE = { width: 800, height: 600, minWidth: 600, minHeight: 450 }
+export const AVATAR_SIZE = { width: 400, height: 400, minWidth: 200, minHeight: 200 }
 
-// Todas las imágenes quedan iguales: 800x600, recortadas al centro y en WebP.
-export const saveImage = async (input, folder, name) => {
+// Las imágenes quedan iguales: recortadas al centro y en WebP (800x600, o 400x400 las fotos de perfil).
+export const saveImage = async (input, folder, name, size = DEFAULT_SIZE) => {
     let metadata
     try {
         metadata = await sharp(input).metadata()
@@ -24,8 +22,8 @@ export const saveImage = async (input, folder, name) => {
         throw new HttpError(400, 'La imagen debe ser JPG, PNG o WebP')
     }
 
-    if (metadata.width < MIN_WIDTH || metadata.height < MIN_HEIGHT) {
-        throw new HttpError(400, `La imagen debe medir al menos ${MIN_WIDTH}x${MIN_HEIGHT} píxeles`)
+    if (metadata.width < size.minWidth || metadata.height < size.minHeight) {
+        throw new HttpError(400, `La imagen debe medir al menos ${size.minWidth}x${size.minHeight} píxeles`)
     }
 
     await mkdir(path.join(IMAGES_DIR, folder), { recursive: true })
@@ -33,7 +31,7 @@ export const saveImage = async (input, folder, name) => {
     const fileName = `${name}.webp`
     await sharp(input)
         .rotate()
-        .resize(WIDTH, HEIGHT, { fit: 'cover' })
+        .resize(size.width, size.height, { fit: 'cover' })
         .webp({ quality: 80 })
         .toFile(path.join(IMAGES_DIR, folder, fileName))
 

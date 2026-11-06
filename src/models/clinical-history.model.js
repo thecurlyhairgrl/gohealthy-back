@@ -33,6 +33,8 @@ const clinicalHistorySchema = new Schema(
         },
         reasonForVisit: String,
         goals: [String],
+        weightGoalKg: { type: Number, min: 0 },
+        bodyFatGoalPct: { type: Number, min: 0, max: 100 },
         familyHistory: [familyHistoryItemSchema],
         pathologicalHistory: {
             diseases: [String],

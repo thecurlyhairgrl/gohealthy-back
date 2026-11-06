@@ -31,6 +31,38 @@ export const getConversation = async (req, res, next) => {
     }
 }
 
+export const getConversations = async (req, res, next) => {
+    try {
+        const patients = await User.find({ role: 'patient', nutritionist: req.user.id, active: true })
+            .select('firstName paternalLastName maternalLastName avatarUrl')
+            .lean()
+
+        const result = []
+        for (const patient of patients) {
+            const lastMessage = await Message.findOne({ patient: patient._id })
+                .sort({ createdAt: -1 })
+                .populate('sender', 'role')
+                .lean()
+            const unread = await Message.countDocuments({ patient: patient._id, recipient: req.user.id, read: false })
+
+            result.push({
+                patient,
+                lastMessage: lastMessage
+                    ? { body: lastMessage.body, subject: lastMessage.subject, createdAt: lastMessage.createdAt, senderRole: lastMessage.sender?.role }
+                    : null,
+                unread,
+            })
+        }
+
+        // Primero las conversaciones con mensajes, de la más reciente a la más antigua
+        result.sort((a, b) => (b.lastMessage?.createdAt ?? 0) - (a.lastMessage?.createdAt ?? 0))
+
+        res.json(result)
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const getUnreadCount = async (req, res, next) => {
     try {
         const unread = await Message.countDocuments({ recipient: req.user.id, read: false })

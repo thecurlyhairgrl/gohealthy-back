@@ -31,6 +31,26 @@ export const getPatientFollowUp = async (req, res, next) => {
                 },
             },
             {
+                $lookup: {
+                    from: 'measurements',
+                    let: { patientId: '$_id' },
+                    pipeline: [
+                        { $match: { $expr: { $eq: ['$patient', '$$patientId'] } } },
+                        { $sort: { date: -1 } },
+                        { $limit: 1 },
+                    ],
+                    as: 'lastMeasurement',
+                },
+            },
+            {
+                $lookup: {
+                    from: 'clinicalHistories',
+                    localField: '_id',
+                    foreignField: 'patient',
+                    as: 'clinicalHistory',
+                },
+            },
+            {
                 $addFields: {
                     upcomingAppointments: {
                         $filter: {
@@ -55,6 +75,8 @@ export const getPatientFollowUp = async (req, res, next) => {
                     totalConsultations: { $size: '$consultations' },
                     lastConsultation: { $max: '$consultations.date' },
                     nextAppointment: { $min: '$upcomingAppointments.dateTime' },
+                    currentWeightKg: { $arrayElemAt: ['$lastMeasurement.weightKg', 0] },
+                    weightGoalKg: { $arrayElemAt: ['$clinicalHistory.weightGoalKg', 0] },
                 },
             },
             {

@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import { authenticate } from '../middlewares/auth.js'
+import { authenticate, authorize } from '../middlewares/auth.js'
 import {
     getConversation,
+    getConversations,
     getUnreadCount,
     sendMessage,
     markConversationAsRead,
@@ -12,6 +13,7 @@ const router = Router()
 router.use(authenticate)
 
 router.get('/', getConversation)
+router.get('/conversations', authorize('nutritionist'), getConversations)
 router.get('/unread-count', getUnreadCount)
 router.post('/', sendMessage)
 router.put('/read', markConversationAsRead)

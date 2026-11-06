@@ -1,4 +1,4 @@
-import { Measurement, WellnessSurvey, User } from '../models/index.js'
+import { Measurement, WellnessSurvey, User, ClinicalHistory } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
 
 export const getProgress = async (req, res, next) => {
@@ -40,6 +40,21 @@ export const getProgress = async (req, res, next) => {
             weightChangeKg = Number((lastWeight - firstWeight).toFixed(1))
         }
 
+        const firstMeasurement = await Measurement.findOne({ patient: patientId }).sort({ date: 1 }).select('weightKg bodyFatPct')
+        const lastMeasurement = await Measurement.findOne({ patient: patientId }).sort({ date: -1 }).select('weightKg bodyFatPct')
+        const clinicalHistory = await ClinicalHistory.findOne({ patient: patientId }).select('weightGoalKg bodyFatGoalPct')
+
+        const initialWeightKg = firstMeasurement ? firstMeasurement.weightKg : null
+        const currentWeightKg = lastMeasurement ? lastMeasurement.weightKg : null
+        const weightGoalKg = clinicalHistory?.weightGoalKg ?? null
+
+        // Qué parte del camino hacia la meta lleva el paciente (sirve para bajar o subir de peso)
+        let goalProgressPct = null
+        if (initialWeightKg !== null && weightGoalKg !== null && initialWeightKg !== weightGoalKg) {
+            const progress = ((initialWeightKg - currentWeightKg) / (initialWeightKg - weightGoalKg)) * 100
+            goalProgressPct = Math.round(Math.min(Math.max(progress, 0), 100))
+        }
+
         res.json({
             days,
             measurements,
@@ -48,6 +63,14 @@ export const getProgress = async (req, res, next) => {
                 totalMeasurements: measurements.length,
                 totalSurveys: surveys.length,
                 weightChangeKg,
+            },
+            goals: {
+                initialWeightKg,
+                currentWeightKg,
+                weightGoalKg,
+                goalProgressPct,
+                currentBodyFatPct: lastMeasurement?.bodyFatPct ?? null,
+                bodyFatGoalPct: clinicalHistory?.bodyFatGoalPct ?? null,
             },
         })
     } catch (error) {

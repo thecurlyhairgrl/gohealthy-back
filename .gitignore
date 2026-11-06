@@ -11,3 +11,8 @@ src/database/import-recipes.js
 
 # Imágenes de recetas subidas desde la API
 public/images/recipes/uploads/
+
+AGENTS.md
+
+# Fotos de perfil subidas desde la API
+public/images/avatars/

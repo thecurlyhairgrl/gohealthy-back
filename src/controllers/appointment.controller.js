@@ -69,7 +69,7 @@ export const getAppointmentById = async (req, res, next) => {
 
 export const createAppointment = async (req, res, next) => {
     try {
-        const { patientId, dateTime, durationMin, reason, notes } = req.body
+        const { patientId, dateTime, durationMin, modality, reason, notes } = req.body
 
         if (!patientId) {
             throw new HttpError(400, 'Falta el patientId')
@@ -86,6 +86,7 @@ export const createAppointment = async (req, res, next) => {
             nutritionist: req.user.id,
             dateTime,
             durationMin,
+            modality,
             reason,
             notes,
         })
@@ -110,7 +111,7 @@ export const updateAppointment = async (req, res, next) => {
             throw new HttpError(404, 'Cita no encontrada')
         }
 
-        const { dateTime, durationMin, reason, notes, status } = req.body
+        const { dateTime, durationMin, modality, reason, notes, status } = req.body
         const previousDateTime = appointment.dateTime.getTime()
 
         if (dateTime !== undefined) {
@@ -118,6 +119,9 @@ export const updateAppointment = async (req, res, next) => {
         }
         if (durationMin !== undefined) {
             appointment.durationMin = durationMin
+        }
+        if (modality !== undefined) {
+            appointment.modality = modality
         }
         if (reason !== undefined) {
             appointment.reason = reason

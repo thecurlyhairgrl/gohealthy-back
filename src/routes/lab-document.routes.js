@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { authenticate, authorize } from '../middlewares/auth.js'
+import { authenticate } from '../middlewares/auth.js'
 import { upload } from '../middlewares/upload.js'
 import {
     getLabDocuments,
@@ -13,8 +13,8 @@ const router = Router()
 router.use(authenticate)
 
 router.get('/', getLabDocuments)
-router.post('/', authorize('patient'), upload.single('file'), uploadLabDocument)
+router.post('/', upload.single('file'), uploadLabDocument)
 router.get('/:id/file', downloadLabDocument)
-router.delete('/:id', authorize('patient'), deleteLabDocument)
+router.delete('/:id', deleteLabDocument)
 
 export default router

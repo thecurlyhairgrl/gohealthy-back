@@ -37,10 +37,26 @@ export const uploadLabDocument = async (req, res, next) => {
             throw new HttpError(400, 'No se recibió ningún archivo. Envíalo en el campo "file"')
         }
 
+        let patientId = req.user.id
+
+        if (req.user.role === 'nutritionist') {
+            if (!req.body.patientId) {
+                throw new HttpError(400, 'Falta el patientId')
+            }
+
+            const patient = await User.findOne({ _id: req.body.patientId, role: 'patient', nutritionist: req.user.id })
+
+            if (!patient) {
+                throw new HttpError(404, 'Paciente no encontrado')
+            }
+
+            patientId = patient._id
+        }
+
         const originalName = Buffer.from(req.file.originalname, 'latin1').toString('utf8')
 
         const labDocument = await LabDocument.create({
-            patient: req.user.id,
+            patient: patientId,
             uploadedBy: req.user.id,
             originalName,
             storedName: req.file.filename,
@@ -52,6 +68,10 @@ export const uploadLabDocument = async (req, res, next) => {
 
         res.status(201).json(labDocument)
     } catch (error) {
+        // Si no se guardó el registro, el archivo que dejó multer ya no sirve
+        if (req.file) {
+            await unlink(req.file.path).catch(() => {})
+        }
         next(error)
     }
 }
@@ -85,7 +105,7 @@ export const downloadLabDocument = async (req, res, next) => {
 
 export const deleteLabDocument = async (req, res, next) => {
     try {
-        const labDocument = await LabDocument.findOneAndDelete({ _id: req.params.id, patient: req.user.id })
+        const labDocument = await LabDocument.findOneAndDelete({ _id: req.params.id, uploadedBy: req.user.id })
 
         if (!labDocument) {
             throw new HttpError(404, 'Documento no encontrado')
