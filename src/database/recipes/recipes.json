@@ -1,0 +1,1148 @@
+[
+  {
+    "name": "Huevos a la mexicana con frijoles",
+    "imageFile": "huevos-a-la-mexicana-con-frijoles.jpg",
+    "mealTimes": [
+      "breakfast"
+    ],
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "name": "Huevo entero fresco",
+        "groupKey": "animal-moderate-fat",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "pieza"
+      },
+      {
+        "name": "Jitomate guaje o saladet",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Chile jalapeño",
+        "groupKey": "vegetables",
+        "equivalents": 0.17,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Aceite de oliva",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "cucharadita"
+      },
+      {
+        "name": "Frijol cocido",
+        "groupKey": "legumes",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Tortilla de maíz",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Pica el jitomate, la cebolla y el chile jalapeño sin semillas en cubos pequeños.",
+      "Calienta el aceite en un sartén a fuego medio y sofríe la cebolla 2 minutos, hasta que se vea transparente.",
+      "Agrega el jitomate y el chile, y cocina 3 minutos más.",
+      "Bate los huevos con una pizca de sal, viértelos en el sartén y revuelve hasta que estén cocidos, unos 3 minutos.",
+      "Calienta los frijoles y las tortillas, y sirve todo junto."
+    ]
+  },
+  {
+    "name": "Avena con manzana y nuez",
+    "imageFile": "avena-con-manzana-y-nuez.jpg",
+    "mealTimes": [
+      "breakfast"
+    ],
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "name": "Avena en hojuelas",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Leche descremada",
+        "groupKey": "milk-skim",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Manzana",
+        "groupKey": "fruits",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Nuez",
+        "groupKey": "fats-with-protein",
+        "equivalents": 1.0,
+        "quantity": 3,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Calienta la leche en una olla a fuego medio sin que hierva.",
+      "Agrega la avena y cocina 5 minutos, moviendo seguido, hasta que espese.",
+      "Pica la manzana en cubos pequeños y la nuez en trozos.",
+      "Sirve la avena y agrega encima la manzana, la nuez y canela en polvo al gusto."
+    ]
+  },
+  {
+    "name": "Molletes integrales con pico de gallo",
+    "imageFile": "molletes-integrales-con-pico-de-gallo.jpg",
+    "mealTimes": [
+      "breakfast",
+      "dinner"
+    ],
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "name": "Pan integral de caja",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "rebanada"
+      },
+      {
+        "name": "Frijol refrito",
+        "groupKey": "legumes",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "taza"
+      },
+      {
+        "name": "Queso panela",
+        "groupKey": "animal-low-fat",
+        "equivalents": 1.0,
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Jitomate bola",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.5,
+        "unit": "pieza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Cilantro picado crudo",
+        "groupKey": "vegetables",
+        "equivalents": 0.12,
+        "quantity": 0.25,
+        "unit": "taza"
+      }
+    ],
+    "steps": [
+      "Precalienta el horno o el tostador a 180 °C.",
+      "Unta los frijoles sobre las rebanadas de pan y pon encima el queso panela desmoronado.",
+      "Hornea 8 minutos, hasta que el pan esté dorado y el queso caliente.",
+      "Pica el jitomate, la cebolla y el cilantro, y mézclalos con limón y sal al gusto.",
+      "Sirve los molletes con el pico de gallo encima."
+    ]
+  },
+  {
+    "name": "Licuado de plátano con avena",
+    "imageFile": "licuado-de-platano-con-avena.jpg",
+    "mealTimes": [
+      "breakfast",
+      "morning-snack"
+    ],
+    "prepMinutes": 5,
+    "ingredients": [
+      {
+        "name": "Leche descremada",
+        "groupKey": "milk-skim",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Plátano",
+        "groupKey": "fruits",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "pieza"
+      },
+      {
+        "name": "Avena en hojuelas",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Almendra",
+        "groupKey": "fats-with-protein",
+        "equivalents": 1.0,
+        "quantity": 10,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Pela el plátano y córtalo en rodajas.",
+      "Pon en la licuadora la leche, el plátano, la avena y las almendras.",
+      "Licúa 1 minuto, hasta que no queden trozos, y sirve de inmediato."
+    ]
+  },
+  {
+    "name": "Chilaquiles verdes horneados con pollo",
+    "imageFile": "chilaquiles-verdes-horneados-con-pollo.jpg",
+    "mealTimes": [
+      "breakfast"
+    ],
+    "prepMinutes": 25,
+    "ingredients": [
+      {
+        "name": "Tostada de maíz horneada",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 4,
+        "unit": "pieza"
+      },
+      {
+        "name": "Tomate verde",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 5,
+        "unit": "pieza"
+      },
+      {
+        "name": "Chile jalapeño",
+        "groupKey": "vegetables",
+        "equivalents": 0.17,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Pechuga de pollo sin piel cruda",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 2.0,
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Queso fresco",
+        "groupKey": "animal-low-fat",
+        "equivalents": 1.0,
+        "quantity": 40,
+        "unit": "g"
+      }
+    ],
+    "steps": [
+      "Cuece la pechuga en agua con sal por 20 minutos, déjala enfriar y deshébrala.",
+      "Hierve los tomates y el chile 5 minutos, hasta que cambien de color.",
+      "Licúa los tomates y el chile con la mitad de la cebolla, un diente de ajo y un poco del agua donde se cocieron.",
+      "Calienta la salsa en un sartén a fuego medio por 5 minutos.",
+      "Rompe las tostadas en trozos, sírvelas y báñalas con la salsa caliente justo antes de comer.",
+      "Pon encima el pollo, el queso fresco desmoronado y el resto de la cebolla en rodajas."
+    ]
+  },
+  {
+    "name": "Omelette de claras con espinaca y champiñones",
+    "imageFile": "omelette-de-claras-con-espinaca-y-champinones.jpg",
+    "mealTimes": [
+      "breakfast",
+      "dinner"
+    ],
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "name": "Clara de huevo",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 2.0,
+        "quantity": 4,
+        "unit": "pieza"
+      },
+      {
+        "name": "Espinaca cocida",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Champiñón crudo rebanado",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.75,
+        "unit": "taza"
+      },
+      {
+        "name": "Aceite de oliva",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "cucharadita"
+      },
+      {
+        "name": "Pan integral de caja",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "rebanada"
+      }
+    ],
+    "steps": [
+      "Calienta el aceite en un sartén antiadherente a fuego medio.",
+      "Saltea los champiñones 3 minutos y agrega la espinaca por 1 minuto más.",
+      "Bate las claras con una pizca de sal y viértelas sobre las verduras.",
+      "Cocina a fuego bajo 4 minutos, hasta que las claras estén firmes, y dobla el omelette a la mitad.",
+      "Sirve con el pan tostado."
+    ]
+  },
+  {
+    "name": "Yoghurt con papaya y granola",
+    "imageFile": "yoghurt-con-papaya-y-granola.jpg",
+    "mealTimes": [
+      "breakfast",
+      "morning-snack"
+    ],
+    "prepMinutes": 5,
+    "ingredients": [
+      {
+        "name": "Yoghurt natural",
+        "groupKey": "milk-whole",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Papaya picada",
+        "groupKey": "fruits",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Granola estándar",
+        "groupKey": "cereals-with-fat",
+        "equivalents": 1.0,
+        "quantity": 3,
+        "unit": "cucharada"
+      }
+    ],
+    "steps": [
+      "Pica la papaya en cubos.",
+      "Sirve el yoghurt en un tazón.",
+      "Agrega la papaya y la granola justo antes de comer, para que no se ablande."
+    ]
+  },
+  {
+    "name": "Jícama, pepino y naranja con limón",
+    "imageFile": "jicama-pepino-y-naranja-con-limon.jpg",
+    "mealTimes": [
+      "morning-snack",
+      "afternoon-snack"
+    ],
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "name": "Jícama picada",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Pepino con cáscara rebanado",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Naranja",
+        "groupKey": "fruits",
+        "equivalents": 0.5,
+        "quantity": 1,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Pela la jícama y córtala en bastones.",
+      "Corta el pepino en rodajas y la naranja en gajos.",
+      "Sirve todo junto con jugo de limón, sal y chile en polvo al gusto."
+    ]
+  },
+  {
+    "name": "Manzana con mantequilla de cacahuate",
+    "imageFile": "manzana-con-mantequilla-de-cacahuate.jpg",
+    "mealTimes": [
+      "morning-snack",
+      "afternoon-snack"
+    ],
+    "prepMinutes": 5,
+    "ingredients": [
+      {
+        "name": "Manzana",
+        "groupKey": "fruits",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Mantequilla de cacahuate",
+        "groupKey": "fats-with-protein",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "cucharadita"
+      }
+    ],
+    "steps": [
+      "Lava la manzana y córtala en rebanadas delgadas, sin el corazón.",
+      "Unta la mantequilla de cacahuate sobre las rebanadas."
+    ]
+  },
+  {
+    "name": "Tostadas de atún con aguacate",
+    "imageFile": "tostadas-de-atun-con-aguacate.jpg",
+    "mealTimes": [
+      "afternoon-snack",
+      "dinner"
+    ],
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "name": "Tostada de maíz horneada",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "pieza"
+      },
+      {
+        "name": "Atún en agua (drenado)",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "lata"
+      },
+      {
+        "name": "Jitomate bola",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.5,
+        "unit": "pieza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Aguacate hass",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Escurre bien el atún.",
+      "Pica el jitomate y la cebolla en cubos pequeños.",
+      "Mezcla el atún con el jitomate, la cebolla, jugo de limón y sal al gusto.",
+      "Sirve la mezcla sobre las tostadas con rebanadas de aguacate."
+    ]
+  },
+  {
+    "name": "Palomitas con chile y limón",
+    "imageFile": "palomitas-con-chile-y-limon.jpg",
+    "mealTimes": [
+      "afternoon-snack"
+    ],
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "name": "Palomitas naturales",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 2.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Cacahuate natural",
+        "groupKey": "fats-with-protein",
+        "equivalents": 1.0,
+        "quantity": 14,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Prepara las palomitas en una olla tapada a fuego medio, moviendo la olla hasta que dejen de tronar.",
+      "Pásalas a un tazón y agrega los cacahuates.",
+      "Sazona con jugo de limón y chile en polvo al gusto."
+    ]
+  },
+  {
+    "name": "Tacos de pollo con nopales",
+    "imageFile": "tacos-de-pollo-con-nopales.jpg",
+    "mealTimes": [
+      "lunch",
+      "dinner"
+    ],
+    "prepMinutes": 20,
+    "ingredients": [
+      {
+        "name": "Pechuga de pollo sin piel cruda",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 3.0,
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Nopal cocido",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Tortilla de maíz",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "pieza"
+      },
+      {
+        "name": "Aceite de oliva",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "cucharadita"
+      }
+    ],
+    "steps": [
+      "Corta la pechuga en tiras delgadas y sazónala con sal y pimienta.",
+      "Calienta el aceite en un sartén a fuego medio y cocina el pollo 8 minutos, hasta que no quede rosa por dentro.",
+      "Agrega la cebolla y el nopal en tiras, y cocina 3 minutos más.",
+      "Calienta las tortillas y sirve el pollo con nopal sobre ellas."
+    ]
+  },
+  {
+    "name": "Caldo de pescado",
+    "imageFile": "caldo-de-pescado.jpg",
+    "mealTimes": [
+      "lunch"
+    ],
+    "prepMinutes": 35,
+    "ingredients": [
+      {
+        "name": "Filete de pescado",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 3.0,
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Jitomate guaje o saladet",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "pieza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Chayote cocido picado",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Zanahoria picada cruda",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Arroz cocido",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Aguacate hass",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Licúa el jitomate con la cebolla, un diente de ajo y 1 taza de agua, y cuélalo.",
+      "Calienta la salsa en una olla con 3 tazas de agua y una hoja de laurel hasta que hierva.",
+      "Agrega la zanahoria y cocina 10 minutos.",
+      "Agrega el chayote y el pescado en trozos, y cocina a fuego bajo 8 minutos, hasta que el pescado se deshaga con un tenedor.",
+      "Sirve el caldo con el arroz y el aguacate en cubos."
+    ]
+  },
+  {
+    "name": "Bistec en salsa verde con arroz",
+    "imageFile": "bistec-en-salsa-verde-con-arroz.jpg",
+    "mealTimes": [
+      "lunch"
+    ],
+    "prepMinutes": 30,
+    "ingredients": [
+      {
+        "name": "Bistec de res",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 3.0,
+        "quantity": 90,
+        "unit": "g"
+      },
+      {
+        "name": "Tomate verde",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 5,
+        "unit": "pieza"
+      },
+      {
+        "name": "Chile jalapeño",
+        "groupKey": "vegetables",
+        "equivalents": 0.17,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Calabacita alargada cruda",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Arroz cocido",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Aceite de oliva",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "cucharadita"
+      }
+    ],
+    "steps": [
+      "Hierve los tomates y el chile 5 minutos y licúalos con un diente de ajo y sal.",
+      "Corta el bistec en tiras y la calabacita en medias lunas.",
+      "Calienta el aceite en un sartén a fuego alto y dora el bistec 4 minutos.",
+      "Agrega la salsa y la calabacita, baja el fuego y cocina 10 minutos.",
+      "Sirve con el arroz."
+    ]
+  },
+  {
+    "name": "Lentejas guisadas",
+    "imageFile": "lentejas-guisadas.jpg",
+    "mealTimes": [
+      "lunch"
+    ],
+    "prepMinutes": 30,
+    "ingredients": [
+      {
+        "name": "Lenteja cocida",
+        "groupKey": "legumes",
+        "equivalents": 2.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Jitomate bola",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Zanahoria picada cruda",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Aceite de oliva",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "cucharadita"
+      },
+      {
+        "name": "Tortilla de maíz",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Pica la cebolla, el jitomate y la zanahoria.",
+      "Calienta el aceite en una olla a fuego medio y sofríe la cebolla 2 minutos.",
+      "Agrega el jitomate y la zanahoria, y cocina 5 minutos.",
+      "Agrega las lentejas cocidas con 1 taza de su caldo y cocina 10 minutos a fuego bajo.",
+      "Sirve con las tortillas calientes."
+    ]
+  },
+  {
+    "name": "Ensalada de pollo con aguacate",
+    "imageFile": "ensalada-de-pollo-con-aguacate.jpg",
+    "mealTimes": [
+      "lunch",
+      "dinner"
+    ],
+    "prepMinutes": 20,
+    "ingredients": [
+      {
+        "name": "Pechuga de pollo sin piel cruda",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 2.0,
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Lechuga",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 3,
+        "unit": "taza"
+      },
+      {
+        "name": "Jitomate bola",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Pepino con cáscara rebanado",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Aguacate hass",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "pieza"
+      },
+      {
+        "name": "Aderezo vinagreta casera",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "cucharadita"
+      },
+      {
+        "name": "Tostada de maíz horneada",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Cocina la pechuga en un sartén a fuego medio 6 minutos por lado, hasta que no quede rosa por dentro, y córtala en tiras.",
+      "Lava la lechuga y córtala en trozos.",
+      "Corta el jitomate, el pepino y el aguacate en cubos.",
+      "Mezcla las verduras con el pollo y agrega la vinagreta justo antes de servir.",
+      "Acompaña con las tostadas."
+    ]
+  },
+  {
+    "name": "Espagueti integral con pollo y brócoli",
+    "imageFile": "espagueti-integral-con-pollo-y-brocoli.jpg",
+    "mealTimes": [
+      "lunch"
+    ],
+    "prepMinutes": 25,
+    "ingredients": [
+      {
+        "name": "Pasta integral cocida",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 0.66,
+        "unit": "taza"
+      },
+      {
+        "name": "Pechuga de pollo sin piel cruda",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 2.0,
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Brócoli cocido",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Jitomate guaje o saladet",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Aceite de oliva",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "cucharadita"
+      },
+      {
+        "name": "Queso parmesano rallado",
+        "groupKey": "animal-moderate-fat",
+        "equivalents": 0.5,
+        "quantity": 1.75,
+        "unit": "cucharada"
+      }
+    ],
+    "steps": [
+      "Cuece la pasta en agua con sal según las instrucciones del paquete y escúrrela.",
+      "Corta el pollo en cubos y cocínalo en el aceite a fuego medio 8 minutos.",
+      "Agrega el jitomate picado y el brócoli, y cocina 3 minutos.",
+      "Mezcla la pasta con el pollo y las verduras.",
+      "Sirve con el queso parmesano encima."
+    ]
+  },
+  {
+    "name": "Tostadas de pollo con frijoles",
+    "imageFile": "tostadas-de-pollo-con-frijoles.jpg",
+    "mealTimes": [
+      "lunch",
+      "dinner"
+    ],
+    "prepMinutes": 25,
+    "ingredients": [
+      {
+        "name": "Tostada de maíz horneada",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "pieza"
+      },
+      {
+        "name": "Frijol refrito",
+        "groupKey": "legumes",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "taza"
+      },
+      {
+        "name": "Pechuga de pollo sin piel cruda",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 2.0,
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Lechuga",
+        "groupKey": "vegetables",
+        "equivalents": 0.33,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Jitomate bola",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.5,
+        "unit": "pieza"
+      },
+      {
+        "name": "Queso fresco",
+        "groupKey": "animal-low-fat",
+        "equivalents": 1.0,
+        "quantity": 40,
+        "unit": "g"
+      }
+    ],
+    "steps": [
+      "Cuece la pechuga en agua con sal por 20 minutos, déjala enfriar y deshébrala.",
+      "Calienta los frijoles.",
+      "Unta los frijoles sobre las tostadas.",
+      "Pon encima el pollo, la lechuga picada, el jitomate en rodajas y el queso desmoronado."
+    ]
+  },
+  {
+    "name": "Sincronizada de pavo y panela",
+    "imageFile": "sincronizada-de-pavo-y-panela.jpg",
+    "mealTimes": [
+      "dinner"
+    ],
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "name": "Tortilla de maíz",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "pieza"
+      },
+      {
+        "name": "Jamón de pavo",
+        "groupKey": "animal-low-fat",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "rebanada"
+      },
+      {
+        "name": "Queso panela",
+        "groupKey": "animal-low-fat",
+        "equivalents": 1.0,
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Aguacate hass",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "pieza"
+      },
+      {
+        "name": "Jitomate bola",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.5,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Pon sobre una tortilla el jamón y el queso panela en rebanadas, y cubre con la otra tortilla.",
+      "Calienta en un comal a fuego medio 3 minutos por lado, hasta que el queso esté caliente.",
+      "Corta en cuatro y sirve con el aguacate y el jitomate en rebanadas."
+    ]
+  },
+  {
+    "name": "Sopa de verduras con pollo",
+    "imageFile": "sopa-de-verduras-con-pollo.jpg",
+    "mealTimes": [
+      "dinner",
+      "lunch"
+    ],
+    "prepMinutes": 35,
+    "ingredients": [
+      {
+        "name": "Pechuga de pollo sin piel cruda",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 2.0,
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Calabacita alargada cruda",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Zanahoria picada cruda",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Chayote cocido picado",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Elote desgranado",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 0.5,
+        "unit": "taza"
+      },
+      {
+        "name": "Caldo desgrasado",
+        "groupKey": "free-foods",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "taza"
+      }
+    ],
+    "steps": [
+      "Pon el caldo a hervir en una olla con la pechuga entera, por 15 minutos.",
+      "Saca la pechuga, deshébrala y regrésala a la olla.",
+      "Agrega la zanahoria y el elote, y cocina 8 minutos.",
+      "Agrega la calabacita y el chayote en cubos, y cocina 5 minutos más.",
+      "Sazona con sal, pimienta y cilantro al gusto."
+    ]
+  },
+  {
+    "name": "Quesadillas de flor de calabaza",
+    "imageFile": "quesadillas-de-flor-de-calabaza.jpg",
+    "mealTimes": [
+      "dinner"
+    ],
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "name": "Tortilla de maíz",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 2.0,
+        "quantity": 2,
+        "unit": "pieza"
+      },
+      {
+        "name": "Flor de calabaza cocida",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Queso Oaxaca",
+        "groupKey": "animal-high-fat",
+        "equivalents": 1.0,
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      }
+    ],
+    "steps": [
+      "Quita el tallo y los pistilos a las flores de calabaza y lávalas.",
+      "Cocina la cebolla en un sartén con un poco de agua 2 minutos, agrega las flores y cocina 3 minutos más.",
+      "Rellena las tortillas con las flores y el queso deshebrado, y dóblalas a la mitad.",
+      "Calienta en un comal a fuego medio 3 minutos por lado, hasta que el queso se derrita."
+    ]
+  },
+  {
+    "name": "Ceviche de pescado",
+    "imageFile": "ceviche-de-pescado.jpg",
+    "mealTimes": [
+      "lunch",
+      "dinner"
+    ],
+    "prepMinutes": 30,
+    "ingredients": [
+      {
+        "name": "Filete de pescado",
+        "groupKey": "animal-very-low-fat",
+        "equivalents": 2.0,
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Jitomate bola",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "pieza"
+      },
+      {
+        "name": "Cebolla blanca rebanada",
+        "groupKey": "vegetables",
+        "equivalents": 0.5,
+        "quantity": 0.25,
+        "unit": "taza"
+      },
+      {
+        "name": "Pepino con cáscara rebanado",
+        "groupKey": "vegetables",
+        "equivalents": 1.0,
+        "quantity": 1,
+        "unit": "taza"
+      },
+      {
+        "name": "Aguacate hass",
+        "groupKey": "fats-no-protein",
+        "equivalents": 1.0,
+        "quantity": 0.33,
+        "unit": "pieza"
+      },
+      {
+        "name": "Tostada de maíz horneada",
+        "groupKey": "cereals-no-fat",
+        "equivalents": 1.0,
+        "quantity": 2,
+        "unit": "pieza"
+      }
+    ],
+    "steps": [
+      "Corta el pescado en cubos pequeños y cúbrelo con jugo de limón.",
+      "Deja reposar en el refrigerador 20 minutos, hasta que el pescado se vea blanco por completo.",
+      "Pica el jitomate, la cebolla y el pepino en cubos pequeños.",
+      "Escurre el pescado y mézclalo con las verduras y sal al gusto.",
+      "Sirve sobre las tostadas con el aguacate en cubos."
+    ]
+  }
+]
