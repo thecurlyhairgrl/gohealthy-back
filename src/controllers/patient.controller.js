@@ -114,6 +114,7 @@ export const createPatient = async (req, res, next) => {
         } catch (error) {
             emailSent = false
             console.error('No se pudo enviar el correo de bienvenida:', error.message)
+            console.warn(`Acceso de respaldo para ${patient.email}: contraseña temporal ${temporaryPassword}`)
         }
 
         res.status(201).json({ patient: removePrivateFields(patient), clinicalHistory, emailSent })
@@ -177,6 +178,7 @@ export const resendAccess = async (req, res, next) => {
             await sendWelcomeEmail(patient, temporaryPassword)
         } catch (error) {
             console.error('No se pudo reenviar el acceso:', error.message)
+            console.warn(`Acceso de respaldo para ${patient.email}: contraseña temporal ${temporaryPassword}`)
             throw new HttpError(502, 'No se pudo enviar el correo. Intenta más tarde')
         }
 

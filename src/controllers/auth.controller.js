@@ -261,6 +261,7 @@ export const forgotPassword = async (req, res, next) => {
                 await sendPasswordResetCode(user, code)
             } catch (error) {
                 console.error('No se pudo enviar el código de recuperación:', error.message)
+                console.warn(`Código de respaldo para ${user.email}: ${code}`)
             }
         }
 
