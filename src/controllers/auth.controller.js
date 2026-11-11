@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { User } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
 import { env } from '../config/env.js'
+import { saveImage, AVATAR_SIZE } from '../utils/image.js'
 import { sendPasswordResetCode, sendPasswordChangedEmail } from '../emails/account-emails.js'
 
 const SALT_ROUNDS = 10
@@ -28,8 +29,17 @@ const toPublicUser = (user) => {
         role: user.role,
         mustChangePassword: user.mustChangePassword,
         onboardingCompleted: user.onboardingCompleted,
+        avatarUrl: user.avatarUrl,
+        professionalLicense: user.professionalLicense,
+        specialty: user.specialty,
+        university: user.university,
+        officeAddress: user.officeAddress,
+        bio: user.bio,
     }
 }
+
+const PROFILE_FIELDS = ['firstName', 'paternalLastName', 'maternalLastName', 'phone']
+const NUTRITIONIST_PROFILE_FIELDS = ['professionalLicense', 'specialty', 'university', 'officeAddress', 'bio']
 
 const isValidPassword = (password) => {
     return typeof password === 'string' && password.length >= MIN_PASSWORD_LENGTH
@@ -138,6 +148,53 @@ export const getMe = async (req, res, next) => {
     }
 }
 
+export const updateMe = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id)
+
+        if (!user) {
+            throw new HttpError(404, 'Usuario no encontrado')
+        }
+
+        let fields = PROFILE_FIELDS
+        if (user.role === 'nutritionist') {
+            fields = [...PROFILE_FIELDS, ...NUTRITIONIST_PROFILE_FIELDS]
+        }
+
+        for (const field of fields) {
+            if (req.body[field] !== undefined) {
+                user[field] = req.body[field]
+            }
+        }
+
+        await user.save()
+        res.json(toPublicUser(user))
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const uploadAvatar = async (req, res, next) => {
+    try {
+        if (!req.file) {
+            throw new HttpError(400, 'No se recibió ninguna imagen. Envíala en el campo "image"')
+        }
+
+        const user = await User.findById(req.user.id)
+
+        if (!user) {
+            throw new HttpError(404, 'Usuario no encontrado')
+        }
+
+        user.avatarUrl = await saveImage(req.file.buffer, 'avatars', `${user._id}-${Date.now()}`, AVATAR_SIZE)
+        await user.save()
+
+        res.json(toPublicUser(user))
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const changePassword = async (req, res, next) => {
     try {
         const { currentPassword, newPassword } = req.body
@@ -204,6 +261,7 @@ export const forgotPassword = async (req, res, next) => {
                 await sendPasswordResetCode(user, code)
             } catch (error) {
                 console.error('No se pudo enviar el código de recuperación:', error.message)
+                console.warn(`Código de respaldo para ${user.email}: ${code}`)
             }
         }
 

@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 import bcrypt from 'bcryptjs'
-import { User, ClinicalHistory } from '../models/index.js'
+import { User, ClinicalHistory, Consultation, Measurement } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
 import { sendWelcomeEmail } from '../emails/account-emails.js'
 import { calculateAdherence } from '../services/adherence.service.js'
@@ -13,6 +13,8 @@ const EDITABLE_HISTORY_FIELDS = [
     'identification',
     'reasonForVisit',
     'goals',
+    'weightGoalKg',
+    'bodyFatGoalPct',
     'familyHistory',
     'pathologicalHistory',
     'nonPathologicalHistory',
@@ -53,7 +55,19 @@ export const getPatients = async (req, res, next) => {
         const result = []
         for (const patient of patients) {
             const adherence = await calculateAdherence(patient._id)
-            result.push({ ...patient.toObject(), adherence })
+            const lastConsultation = await Consultation.findOne({ patient: patient._id }).sort({ date: -1 }).select('date')
+            const totalConsultations = await Consultation.countDocuments({ patient: patient._id })
+            const lastMeasurement = await Measurement.findOne({ patient: patient._id }).sort({ date: -1 }).select('weightKg')
+            const clinicalHistory = await ClinicalHistory.findOne({ patient: patient._id }).select('weightGoalKg')
+
+            result.push({
+                ...patient.toObject(),
+                adherence,
+                lastConsultation: lastConsultation ? lastConsultation.date : null,
+                totalConsultations,
+                currentWeightKg: lastMeasurement ? lastMeasurement.weightKg : null,
+                weightGoalKg: clinicalHistory?.weightGoalKg ?? null,
+            })
         }
 
         res.json(result)
@@ -100,6 +114,7 @@ export const createPatient = async (req, res, next) => {
         } catch (error) {
             emailSent = false
             console.error('No se pudo enviar el correo de bienvenida:', error.message)
+            console.warn(`Acceso de respaldo para ${patient.email}: contraseña temporal ${temporaryPassword}`)
         }
 
         res.status(201).json({ patient: removePrivateFields(patient), clinicalHistory, emailSent })
@@ -163,6 +178,7 @@ export const resendAccess = async (req, res, next) => {
             await sendWelcomeEmail(patient, temporaryPassword)
         } catch (error) {
             console.error('No se pudo reenviar el acceso:', error.message)
+            console.warn(`Acceso de respaldo para ${patient.email}: contraseña temporal ${temporaryPassword}`)
             throw new HttpError(502, 'No se pudo enviar el correo. Intenta más tarde')
         }
 

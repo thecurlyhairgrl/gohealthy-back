@@ -21,6 +21,11 @@ const userSchema = new Schema(
         role: { type: String, enum: ROLES, required: true },
         phone: { type: String, trim: true },
         professionalLicense: { type: String, trim: true },
+        specialty: { type: String, trim: true },
+        university: { type: String, trim: true },
+        officeAddress: { type: String, trim: true },
+        bio: { type: String, trim: true, maxlength: 1000 },
+        avatarUrl: String,
         nutritionist: {
             type: Schema.Types.ObjectId,
             ref: 'User',

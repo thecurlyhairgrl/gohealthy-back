@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { env } from './config/env.js'
+import { IMAGES_DIR } from './utils/image.js'
 import routes from './routes/index.js'
 import { notFound } from './middlewares/not-found.js'
 import { errorHandler } from './middlewares/error-handler.js'
@@ -10,6 +11,7 @@ const app = express()
 app.use(cors({ origin: env.clientUrl }))
 app.use(express.json())
 
+app.use('/images', express.static(IMAGES_DIR))
 app.use('/api', routes)
 
 app.use(notFound)

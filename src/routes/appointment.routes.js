@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { authenticate, authorize } from '../middlewares/auth.js'
 import {
     getAppointments,
     getAppointmentById,
@@ -8,8 +9,11 @@ import {
 
 const router = Router()
 
+router.use(authenticate)
+
 router.get('/', getAppointments)
 router.get('/:id', getAppointmentById)
-router.post('/', createAppointment)
-router.put('/:id', updateAppointment)
+router.post('/', authorize('nutritionist'), createAppointment)
+router.put('/:id', authorize('nutritionist'), updateAppointment)
+
 export default router

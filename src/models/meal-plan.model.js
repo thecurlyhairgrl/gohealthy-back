@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-export const MEAL_TIMES = ['breakfast', 'morning-snack', 'lunch', 'afternoonsnack', 'dinner'];
+export const MEAL_TIMES = ['breakfast', 'morning-snack', 'lunch', 'afternoon-snack', 'dinner'];
 export const WEEK_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday',
     'friday', 'saturday', 'sunday'];
 const equivalentSchema = new Schema(
@@ -9,14 +9,14 @@ const equivalentSchema = new Schema(
     },
     { _id: false }
 );
-const distributionSchema = new Schema(
+export const distributionSchema = new Schema(
     {
         mealTime: { type: String, enum: MEAL_TIMES, required: true },
         equivalents: [equivalentSchema],
     },
     { _id: false }
 );
-const menuFoodSchema = new Schema(
+export const menuFoodSchema = new Schema(
     {
         food: { type: Schema.Types.ObjectId, ref: 'SmaeFood' },
         name: { type: String, required: true, trim: true },
@@ -30,12 +30,16 @@ const menuFoodSchema = new Schema(
 const mealSchema = new Schema(
     {
         mealTime: { type: String, enum: MEAL_TIMES, required: true },
+        title: { type: String, trim: true },
+        recipe: { type: Schema.Types.ObjectId, ref: 'Recipe' },
+        imageUrl: String,
         foods: [menuFoodSchema],
+        steps: [String],
         preparation: String,
     },
     { _id: false }
 );
-const daySchema = new Schema(
+export const daySchema = new Schema(
     {
         day: { type: String, enum: WEEK_DAYS, required: true },
         meals: [mealSchema],
@@ -51,6 +55,7 @@ const mealPlanSchema = new Schema(
         version: { type: Number, default: 1, min: 1 },
         startDate: { type: Date, default: Date.now },
         targetKcal: { type: Number, min: 0 },
+        waterLiters: { type: Number, min: 0 },
         distribution: [distributionSchema],
         menu: [daySchema],
         notes: String,

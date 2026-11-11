@@ -5,6 +5,7 @@ export * from './smae-group.model.js';
 export * from './smae-food.model.js';
 export * from './meal-plan.model.js';
 export * from './meal-plan-history.model.js';
+export * from './recipe.model.js';
 export * from './measurement.model.js';
 export * from './wellness-survey.model.js';
 export * from './lab-document.model.js';

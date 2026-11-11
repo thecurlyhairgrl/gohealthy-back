@@ -28,8 +28,16 @@ export const getFoods = async (req, res, next) => {
         let limit = Number(req.query.limit) || 50
         limit = Math.min(limit, 200)
 
-        const foods = await SmaeFood.find(filter).sort({ name: 1 }).limit(limit)
-        res.json(foods)
+        const foods = await SmaeFood.find(filter).sort({ name: 1 }).limit(limit).lean()
+        const groups = await SmaeGroup.find({ imageUrl: { $exists: true } }).select('key imageUrl').lean()
+        const groupImages = new Map(groups.map((group) => [group.key, group.imageUrl]))
+
+        const result = foods.map((food) => ({
+            ...food,
+            imageUrl: food.imageUrl || groupImages.get(food.groupKey) || null,
+        }))
+
+        res.json(result)
     } catch (error) {
         next(error)
     }

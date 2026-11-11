@@ -6,6 +6,10 @@ const transporter = nodemailer.createTransport({
         user: env.emailUser,
         pass: env.emailAppPassword,
     },
+    // Si Gmail no responde, se rinde en segundos en lugar de dejar la petición esperando
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
 })
 export const sendEmail = async ({ to, subject, html }) => {
     await transporter.sendMail({

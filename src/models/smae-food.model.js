@@ -13,6 +13,7 @@ const smaeFoodSchema = new Schema(
         carbohydratesG: { type: Number, required: true, min: 0 },
         fiberG: { type: Number, min: 0 },
         sodiumMg: { type: Number, min: 0 },
+        imageUrl: String,
     },
     { collection: 'smaeFoods' }
 );

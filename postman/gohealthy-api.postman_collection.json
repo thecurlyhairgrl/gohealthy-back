@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "70c722bb-81ef-4176-9dd7-07dab558e094",
     "name": "GoHealthy API",
-    "description": "Ejecutar las carpetas en orden (00 → 12). Los tokens e ids se guardan solos en las variables de la colección. Ver GUIA-PRUEBAS-ENDPOINTS.md.",
+    "description": "Ejecutar las carpetas en orden (00 a 18). Los tokens e ids se guardan solos en las variables de la colección.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -1096,7 +1096,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"2026-10-01\",\n  \"weightKg\": 72.5,\n  \"waistCm\": 84,\n  \"hipCm\": 100,\n  \"bodyFatPct\": 30\n}",
+              "raw": "{\n  \"date\": \"2026-10-01\",\n  \"weightKg\": 72.5,\n  \"waistCm\": 84,\n  \"hipCm\": 100,\n  \"bodyFatPct\": 30\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1138,7 +1138,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"weightKg\": 70.8,\n  \"waistCm\": 82,\n  \"hipCm\": 99\n}",
+              "raw": "{\n  \"weightKg\": 70.8,\n  \"waistCm\": 82,\n  \"hipCm\": 99\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1179,7 +1179,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\"\n}",
+              "raw": "{}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1205,18 +1205,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/measurements?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/measurements",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "measurements"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -1296,7 +1290,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"weightKg\": 99\n}",
+              "raw": "{\n  \"weightKg\": 99\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1347,7 +1341,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -1374,7 +1375,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7.5,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90,\n  \"comment\": \"Buen día\"\n}",
+              "raw": "{\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7.5,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90,\n  \"comment\": \"Buen día\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1428,7 +1429,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{yesterday}}\",\n  \"mood\": 3,\n  \"sleepHours\": 6,\n  \"waterGlasses\": 5,\n  \"activityMinutes\": 15,\n  \"planAdherence\": 60\n}",
+              "raw": "{\n  \"date\": \"{{yesterday}}\",\n  \"mood\": 3,\n  \"sleepHours\": 6,\n  \"waterGlasses\": 5,\n  \"activityMinutes\": 15,\n  \"planAdherence\": 60\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1469,7 +1470,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
+              "raw": "{\n  \"date\": \"{{today}}\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1510,7 +1511,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"date\": \"19/10/2026\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
+              "raw": "{\n  \"date\": \"19/10/2026\",\n  \"mood\": 4,\n  \"sleepHours\": 7,\n  \"waterGlasses\": 8,\n  \"activityMinutes\": 30,\n  \"planAdherence\": 90\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1536,18 +1537,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/wellness-surveys?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/wellness-surveys",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "wellness-surveys"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -1611,7 +1606,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -1657,7 +1659,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -1684,7 +1693,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nutritionistId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-03T16:00:00.000Z\",\n  \"durationMin\": 60,\n  \"reason\": \"Primera consulta\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-03T16:00:00.000Z\",\n  \"durationMin\": 60,\n  \"reason\": \"Primera consulta\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1711,18 +1720,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/appointments?nutritionistId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/appointments",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "appointments"
-              ],
-              "query": [
-                {
-                  "key": "nutritionistId",
-                  "value": "{{nutritionistId}}"
-                }
               ]
             }
           },
@@ -1913,7 +1916,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nutritionistId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-10T16:00:00.000Z\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-10T16:00:00.000Z\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1978,7 +1981,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -2274,7 +2284,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"senderId\": \"{{patientId}}\",\n  \"subject\": \"Duda con el plan\",\n  \"body\": \"¿Puedo cambiar la fruta de la colación?\"\n}",
+              "raw": "{\n  \"subject\": \"Duda con el plan\",\n  \"body\": \"¿Puedo cambiar la fruta de la colación?\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2315,12 +2325,22 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"senderId\": \"{{nutritionistId}}\",\n  \"patientId\": \"{{patientId}}\",\n  \"subject\": \"Re: Duda con el plan\",\n  \"body\": \"Sí, cualquier fruta de la lista de equivalentes.\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"subject\": \"Re: Duda con el plan\",\n  \"body\": \"Sí, cualquier fruta de la lista de equivalentes.\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
             }
           },
           "event": [
@@ -2341,18 +2361,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/messages",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "messages"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -2374,18 +2388,22 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages/unread-count?userId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/messages/unread-count",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "messages",
                 "unread-count"
-              ],
-              "query": [
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "userId",
-                  "value": "{{nutritionistId}}"
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
                 }
               ]
             }
@@ -2409,7 +2427,7 @@
             "method": "PUT",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages/read?patientId={{patientId}}&userId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/messages/read?patientId={{patientId}}",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -2421,10 +2439,16 @@
                 {
                   "key": "patientId",
                   "value": "{{patientId}}"
-                },
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "userId",
-                  "value": "{{nutritionistId}}"
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
                 }
               ]
             }
@@ -2447,18 +2471,22 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/messages/unread-count?userId={{nutritionistId}}",
+              "raw": "{{baseUrl}}/messages/unread-count",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "messages",
                 "unread-count"
-              ],
-              "query": [
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "userId",
-                  "value": "{{nutritionistId}}"
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
                 }
               ]
             }
@@ -2478,7 +2506,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -2501,11 +2536,6 @@
             "body": {
               "mode": "formdata",
               "formdata": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}",
-                  "type": "text"
-                },
                 {
                   "key": "description",
                   "value": "Química sanguínea",
@@ -2544,18 +2574,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/lab-documents?patientId={{patientId}}",
+              "raw": "{{baseUrl}}/lab-documents",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "lab-documents"
-              ],
-              "query": [
-                {
-                  "key": "patientId",
-                  "value": "{{patientId}}"
-                }
               ]
             }
           },
@@ -2630,7 +2654,14 @@
         }
       ],
       "auth": {
-        "type": "noauth"
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{patientToken}}",
+            "type": "string"
+          }
+        ]
       }
     },
     {
@@ -2965,7 +2996,184 @@
       }
     },
     {
-      "name": "99 · SMAE (pendiente — no ejecutar)",
+      "name": "13 · Seguridad",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "Sin token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente crea cita",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nutriólogo crea medición",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"weightKg\": 70}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nutriólogo sin patientId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/measurements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "measurements"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "14 · Catálogo SMAE",
       "item": [
         {
           "name": "Grupos SMAE",
@@ -2981,16 +3189,38 @@
                 "smae",
                 "groups"
               ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Son 19 grupos', () => pm.expect(pm.response.json().length).to.eql(19));"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Alimentos SMAE",
+          "name": "Buscar alimentos",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/smae/foods?search=manzana&limit=20",
+              "raw": "{{baseUrl}}/smae/foods?search=tortilla&limit=20",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -3001,15 +3231,106 @@
               "query": [
                 {
                   "key": "search",
-                  "value": "manzana"
+                  "value": "tortilla"
                 },
                 {
                   "key": "limit",
                   "value": "20"
                 }
               ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Encuentra alimentos', () => pm.expect(pm.response.json().length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente también ve el catálogo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/smae/groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "smae",
+                "groups"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sin token (401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/smae/groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "smae",
+                "groups"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
         }
       ],
       "auth": {
@@ -3022,7 +3343,1602 @@
           }
         ]
       },
-      "description": "Pendiente: falta montar smae.routes.js en routes/index.js y el script de importación del CSV. Hoy responde 404."
+      "description": "Requiere el catálogo SMAE cargado en la base de datos."
+    },
+    {
+      "name": "15 · Recetas",
+      "description": "Solo para nutriólogos.",
+      "item": [
+        {
+          "name": "Crear receta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/recipes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tacos de pollo con nopales\",\n  \"mealTimes\": [\n    \"lunch\",\n    \"dinner\"\n  ],\n  \"prepMinutes\": 20,\n  \"ingredients\": [\n    {\n      \"name\": \"Pechuga de pollo sin piel\",\n      \"groupKey\": \"animal-very-low-fat\",\n      \"equivalents\": 3,\n      \"quantity\": 90,\n      \"unit\": \"g\"\n    },\n    {\n      \"name\": \"Tortilla de maíz\",\n      \"groupKey\": \"cereals-no-fat\",\n      \"equivalents\": 2,\n      \"quantity\": 2,\n      \"unit\": \"pieza\"\n    }\n  ],\n  \"steps\": [\n    \"Cocina el pollo en un sartén a fuego medio por 8 minutos.\",\n    \"Calienta las tortillas y sirve.\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('recipeId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Receta sin pasos (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/recipes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tacos de pollo con nopales\",\n  \"mealTimes\": [\n    \"lunch\",\n    \"dinner\"\n  ],\n  \"prepMinutes\": 20,\n  \"ingredients\": [\n    {\n      \"name\": \"Pechuga de pollo sin piel\",\n      \"groupKey\": \"animal-very-low-fat\",\n      \"equivalents\": 3,\n      \"quantity\": 90,\n      \"unit\": \"g\"\n    },\n    {\n      \"name\": \"Tortilla de maíz\",\n      \"groupKey\": \"cereals-no-fat\",\n      \"equivalents\": 2,\n      \"quantity\": 2,\n      \"unit\": \"pieza\"\n    }\n  ],\n  \"steps\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar recetas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar por nombre y comida",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipes?search=tacos&mealTime=lunch",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "tacos"
+                },
+                {
+                  "key": "mealTime",
+                  "value": "lunch"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Encuentra la receta', () => pm.expect(pm.response.json().length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle de receta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipes/{{recipeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "{{recipeId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar receta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/recipes/{{recipeId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "{{recipeId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prepMinutes\": 25\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Subir imagen de receta",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipes/{{recipeId}}/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes",
+                "{{recipeId}}",
+                "image"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "description": "En Body, en el campo image, elige un JPG, PNG o WebP de al menos 600x450 píxeles y máximo 10 MB."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('recipeImageUrl', pm.response.json().imageUrl);",
+                  "pm.test('Queda en WebP', () => pm.expect(pm.response.json().imageUrl).to.match(/\\.webp$/));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente no ve recetas (403)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipes"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "16 · Planes alimenticios",
+      "item": [
+        {
+          "name": "Crear plan con receta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"name\": \"Plan de reducción\",\n  \"targetKcal\": 1900,\n  \"waterLiters\": 2.4,\n  \"distribution\": [\n    {\n      \"mealTime\": \"lunch\",\n      \"equivalents\": [\n        {\n          \"groupKey\": \"animal-very-low-fat\",\n          \"quantity\": 3\n        },\n        {\n          \"groupKey\": \"cereals-no-fat\",\n          \"quantity\": 2\n        }\n      ]\n    }\n  ],\n  \"menu\": [\n    {\n      \"day\": \"monday\",\n      \"meals\": [\n        {\n          \"mealTime\": \"lunch\",\n          \"title\": \"Tacos de pollo con nopales\",\n          \"recipe\": \"{{recipeId}}\",\n          \"imageUrl\": \"{{recipeImageUrl}}\",\n          \"foods\": [\n            {\n              \"name\": \"Pechuga de pollo sin piel\",\n              \"groupKey\": \"animal-very-low-fat\",\n              \"equivalents\": 3,\n              \"quantity\": 90,\n              \"unit\": \"g\"\n            },\n            {\n              \"name\": \"Tortilla de maíz\",\n              \"groupKey\": \"cereals-no-fat\",\n              \"equivalents\": 2,\n              \"quantity\": 2,\n              \"unit\": \"pieza\"\n            }\n          ],\n          \"steps\": [\n            \"Cocina el pollo en un sartén a fuego medio por 8 minutos.\",\n            \"Calienta las tortillas y sirve.\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"notes\": \"Tomar agua durante el día.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('mealPlanId', pm.response.json()._id);",
+                  "pm.test('Versión 1', () => pm.expect(pm.response.json().version).to.eql(1));",
+                  "pm.test('Guarda los pasos de la receta', () => pm.expect(pm.response.json().menu[0].meals[0].steps.length).to.eql(2));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente no crea planes (403)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"name\": \"Plan de reducción\",\n  \"targetKcal\": 1900,\n  \"waterLiters\": 2.4,\n  \"distribution\": [\n    {\n      \"mealTime\": \"lunch\",\n      \"equivalents\": [\n        {\n          \"groupKey\": \"animal-very-low-fat\",\n          \"quantity\": 3\n        },\n        {\n          \"groupKey\": \"cereals-no-fat\",\n          \"quantity\": 2\n        }\n      ]\n    }\n  ],\n  \"menu\": [\n    {\n      \"day\": \"monday\",\n      \"meals\": [\n        {\n          \"mealTime\": \"lunch\",\n          \"title\": \"Tacos de pollo con nopales\",\n          \"recipe\": \"{{recipeId}}\",\n          \"imageUrl\": \"{{recipeImageUrl}}\",\n          \"foods\": [\n            {\n              \"name\": \"Pechuga de pollo sin piel\",\n              \"groupKey\": \"animal-very-low-fat\",\n              \"equivalents\": 3,\n              \"quantity\": 90,\n              \"unit\": \"g\"\n            },\n            {\n              \"name\": \"Tortilla de maíz\",\n              \"groupKey\": \"cereals-no-fat\",\n              \"equivalents\": 2,\n              \"quantity\": 2,\n              \"unit\": \"pieza\"\n            }\n          ],\n          \"steps\": [\n            \"Cocina el pollo en un sartén a fuego medio por 8 minutos.\",\n            \"Calienta las tortillas y sirve.\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"notes\": \"Tomar agua durante el día.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Planes del paciente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle de plan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "{{mealPlanId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Plan activo (nutriólogo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/active?patientId={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "active"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Plan activo (paciente)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "active"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Ve la receta', () => pm.expect(pm.response.json().menu[0].meals[0].title).to.eql('Tacos de pollo con nopales'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar plan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "{{mealPlanId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetKcal\": 1800,\n  \"reason\": \"Estancamiento de peso: se reducen 100 kcal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Versión 2', () => pm.expect(pm.response.json().version).to.eql(2));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Historial del plan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}/history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "{{mealPlanId}}",
+                "history"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Una entrada', () => pm.expect(pm.response.json().history.length).to.eql(1));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Comparar versión 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-plans/{{mealPlanId}}/history/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-plans",
+                "{{mealPlanId}}",
+                "history",
+                "1"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Anterior contra actual', () => { const d = pm.response.json(); pm.expect(d.previous.targetKcal).to.eql(1900); pm.expect(d.current.targetKcal).to.eql(1800); });"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "17 · Reportes",
+      "description": "Solo para nutriólogos. Corre antes las carpetas 04 a 08 y 16 para que tengan datos.",
+      "item": [
+        {
+          "name": "Seguimiento de pacientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/patient-follow-up",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "patient-follow-up"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Evolución de peso",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/weight-progress?days=90",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "weight-progress"
+              ],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "90"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Bienestar por padecimiento",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/wellness-by-condition?days=30",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "wellness-by-condition"
+              ],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "30"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Alimentos más usados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/top-foods",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "top-foods"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Hay alimentos', () => pm.expect(pm.response.json().length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente no ve reportes (403)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/top-foods",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "top-foods"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "18 · Perfil, conversaciones y metas",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{nutritionistToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "Editar mi perfil (nutriólogo)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"5512345678\",\n  \"specialty\": \"Nutrición clínica\",\n  \"university\": \"UANL\",\n  \"officeAddress\": \"Av. Universidad 100, San Nicolás\",\n  \"bio\": \"Nutrióloga con enfoque en control de peso.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Guarda la especialidad', () => pm.expect(pm.response.json().specialty).to.eql('Nutrición clínica'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar mi perfil (paciente)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"5598765432\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Subir mi foto de perfil",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me/avatar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me",
+                "avatar"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "description": "Elige un JPG, PNG o WebP de al menos 200x200 píxeles. Queda en 400x400."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Queda en avatars', () => pm.expect(pm.response.json().avatarUrl).to.match(/^\\/images\\/avatars\\//));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lista de conversaciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/messages/conversations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages",
+                "conversations"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Trae no leídos', () => pm.expect(pm.response.json()[0]).to.have.property('unread'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente no ve la lista (403)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/messages/conversations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages",
+                "conversations"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Poner meta de peso",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/patients/{{patientId}}/clinical-history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients",
+                "{{patientId}}",
+                "clinical-history"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"weightGoalKg\": 65,\n  \"bodyFatGoalPct\": 24\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Progreso con metas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/progress?patientId={{patientId}}&days=90",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "dashboard",
+                "progress"
+              ],
+              "query": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}"
+                },
+                {
+                  "key": "days",
+                  "value": "90"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Trae la meta', () => pm.expect(pm.response.json().goals.weightGoalKg).to.eql(65));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Panel con última consulta y peso",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/patients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "patients"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Trae totalConsultations', () => pm.expect(pm.response.json()[0]).to.have.property('totalConsultations'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cita en línea",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-12-01T16:00:00.000Z\",\n  \"modality\": \"video-call\",\n  \"reason\": \"Seguimiento en línea\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Modalidad video-call', () => pm.expect(pm.response.json().modality).to.eql('video-call'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nutriólogo sube documento",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "patientId",
+                  "value": "{{patientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Indicaciones",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "description": "Elige un PDF, JPG o PNG."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('nutritionistDocumentId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente no borra lo que subió el nutriólogo (404)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents/{{nutritionistDocumentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents",
+                "{{nutritionistDocumentId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Nutriólogo borra su documento",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/lab-documents/{{nutritionistDocumentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lab-documents",
+                "{{nutritionistDocumentId}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "variable": [
@@ -3104,6 +5020,22 @@
     },
     {
       "key": "yesterday",
+      "value": ""
+    },
+    {
+      "key": "recipeId",
+      "value": ""
+    },
+    {
+      "key": "recipeImageUrl",
+      "value": ""
+    },
+    {
+      "key": "mealPlanId",
+      "value": ""
+    },
+    {
+      "key": "nutritionistDocumentId",
       "value": ""
     }
   ]
