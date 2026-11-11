@@ -16,3 +16,6 @@ AGENTS.md
 
 # Fotos de perfil subidas desde la API
 public/images/avatars/
+
+# Fotos originales de las recetas (se suben las convertidas de public/images)
+src/database/recipes/images/

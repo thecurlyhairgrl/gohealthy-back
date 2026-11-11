@@ -171,7 +171,7 @@
   },
   {
     "name": "Licuado de plátano con avena",
-    "imageFile": "licuado-de-platano-con-avena.jpg",
+    "imageFile": "licuado-de-platano-con-avena.png",
     "mealTimes": [
       "breakfast",
       "morning-snack"
@@ -365,7 +365,7 @@
   },
   {
     "name": "Jícama, pepino y naranja con limón",
-    "imageFile": "jicama-pepino-y-naranja-con-limon.jpg",
+    "imageFile": "jicama-pepino-y-naranja-con-limon.png",
     "mealTimes": [
       "morning-snack",
       "afternoon-snack"
