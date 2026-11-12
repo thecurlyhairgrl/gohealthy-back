@@ -1,10 +1,11 @@
 import { Router } from 'express'
-import { authenticate } from '../middlewares/auth.js'
+import { authenticate, authorize } from '../middlewares/auth.js'
 import { uploadImage } from '../middlewares/upload.js'
 import {
   register,
   login,
   getMe,
+  getMyNutritionist,
   updateMe,
   uploadAvatar,
   changePassword,
@@ -22,6 +23,7 @@ router.post('/verify-otp', verifyOtp)
 router.post('/reset-password', resetPassword)
 
 router.get('/me', authenticate, getMe)
+router.get('/me/nutritionist', authenticate, authorize('patient'), getMyNutritionist)
 router.put('/me', authenticate, updateMe)
 router.post('/me/avatar', authenticate, uploadImage.single('image'), uploadAvatar)
 router.put('/change-password', authenticate, changePassword)
