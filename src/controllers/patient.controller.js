@@ -1,9 +1,10 @@
 import crypto from 'node:crypto'
 import bcrypt from 'bcryptjs'
-import { User, ClinicalHistory, Consultation, Measurement } from '../models/index.js'
+import { User, ClinicalHistory, Consultation } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
 import { sendWelcomeEmail } from '../emails/account-emails.js'
 import { calculateAdherence } from '../services/adherence.service.js'
+import { getCurrentWeight } from '../services/weight.service.js'
 
 const SALT_ROUNDS = 10
 
@@ -57,7 +58,8 @@ export const getPatients = async (req, res, next) => {
             const adherence = await calculateAdherence(patient._id)
             const lastConsultation = await Consultation.findOne({ patient: patient._id }).sort({ date: -1 }).select('date')
             const totalConsultations = await Consultation.countDocuments({ patient: patient._id })
-            const lastMeasurement = await Measurement.findOne({ patient: patient._id }).sort({ date: -1 }).select('weightKg')
+            // El peso más reciente, sea de una medición del paciente o de una consulta
+            const currentWeightKg = await getCurrentWeight(patient._id)
             const clinicalHistory = await ClinicalHistory.findOne({ patient: patient._id }).select('weightGoalKg')
 
             result.push({
@@ -65,7 +67,7 @@ export const getPatients = async (req, res, next) => {
                 adherence,
                 lastConsultation: lastConsultation ? lastConsultation.date : null,
                 totalConsultations,
-                currentWeightKg: lastMeasurement ? lastMeasurement.weightKg : null,
+                currentWeightKg,
                 weightGoalKg: clinicalHistory?.weightGoalKg ?? null,
             })
         }

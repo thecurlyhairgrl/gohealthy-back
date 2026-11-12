@@ -1,5 +1,6 @@
 import { Measurement, WellnessSurvey, User, ClinicalHistory } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
+import { getWeightRecords } from '../services/weight.service.js'
 
 export const getProgress = async (req, res, next) => {
     try {
@@ -33,19 +34,25 @@ export const getProgress = async (req, res, next) => {
             .sort({ date: 1 })
             .select('date mood sleepHours waterGlasses activityMinutes planAdherence')
 
+        // Peso de las mediciones del paciente y de las consultas, cada uno con su `source`
+        const weights = await getWeightRecords(patientId, since)
+
         let weightChangeKg = null
-        if (measurements.length >= 2) {
-            const firstWeight = measurements[0].weightKg
-            const lastWeight = measurements[measurements.length - 1].weightKg
+        if (weights.length >= 2) {
+            const firstWeight = weights[0].weightKg
+            const lastWeight = weights[weights.length - 1].weightKg
             weightChangeKg = Number((lastWeight - firstWeight).toFixed(1))
         }
 
-        const firstMeasurement = await Measurement.findOne({ patient: patientId }).sort({ date: 1 }).select('weightKg bodyFatPct')
-        const lastMeasurement = await Measurement.findOne({ patient: patientId }).sort({ date: -1 }).select('weightKg bodyFatPct')
+        // Las metas se calculan con todos los registros, no solo los del periodo
+        const allWeights = await getWeightRecords(patientId)
+        const firstRecord = allWeights[0]
+        const lastRecord = allWeights[allWeights.length - 1]
+        const lastBodyFat = allWeights.filter((record) => record.bodyFatPct !== null).pop()
         const clinicalHistory = await ClinicalHistory.findOne({ patient: patientId }).select('weightGoalKg bodyFatGoalPct')
 
-        const initialWeightKg = firstMeasurement ? firstMeasurement.weightKg : null
-        const currentWeightKg = lastMeasurement ? lastMeasurement.weightKg : null
+        const initialWeightKg = firstRecord ? firstRecord.weightKg : null
+        const currentWeightKg = lastRecord ? lastRecord.weightKg : null
         const weightGoalKg = clinicalHistory?.weightGoalKg ?? null
 
         // Qué parte del camino hacia la meta lleva el paciente (sirve para bajar o subir de peso)
@@ -58,9 +65,11 @@ export const getProgress = async (req, res, next) => {
         res.json({
             days,
             measurements,
+            weights,
             surveys,
             summary: {
                 totalMeasurements: measurements.length,
+                totalWeights: weights.length,
                 totalSurveys: surveys.length,
                 weightChangeKg,
             },
@@ -69,7 +78,7 @@ export const getProgress = async (req, res, next) => {
                 currentWeightKg,
                 weightGoalKg,
                 goalProgressPct,
-                currentBodyFatPct: lastMeasurement?.bodyFatPct ?? null,
+                currentBodyFatPct: lastBodyFat ? lastBodyFat.bodyFatPct : null,
                 bodyFatGoalPct: clinicalHistory?.bodyFatGoalPct ?? null,
             },
         })

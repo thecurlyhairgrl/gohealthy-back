@@ -332,6 +332,35 @@
           ]
         },
         {
+          "name": "Mi nutriólogo siendo nutriólogo (403)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me/nutritionist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me",
+                "nutritionist"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "Mi perfil sin token (401)",
           "request": {
             "method": "GET",
@@ -1034,6 +1063,37 @@
           ]
         },
         {
+          "name": "Mi nutriólogo (paciente)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me/nutritionist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me",
+                "nutritionist"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Trae el nombre del nutriólogo', () => pm.expect(pm.response.json().firstName).to.be.a('string'));",
+                  "pm.test('No trae datos privados', () => pm.expect(pm.response.json()).to.not.have.property('passwordHash'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "Paciente intenta ver /patients (403)",
           "request": {
             "method": "GET",
@@ -1651,7 +1711,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Trae el peso de mediciones y consultas', () => pm.expect(pm.response.json().weights).to.be.an('array'));"
                 ]
               }
             }

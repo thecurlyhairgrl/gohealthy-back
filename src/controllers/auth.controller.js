@@ -148,6 +148,40 @@ export const getMe = async (req, res, next) => {
     }
 }
 
+// Datos públicos del nutriólogo del paciente que hace la petición
+export const getMyNutritionist = async (req, res, next) => {
+    try {
+        const patient = await User.findById(req.user.id)
+
+        if (!patient) {
+            throw new HttpError(404, 'Usuario no encontrado')
+        }
+
+        const nutritionist = await User.findOne({ _id: patient.nutritionist, role: 'nutritionist' })
+
+        if (!nutritionist) {
+            throw new HttpError(404, 'No se encontró a tu nutriólogo')
+        }
+
+        res.json({
+            id: nutritionist._id,
+            firstName: nutritionist.firstName,
+            paternalLastName: nutritionist.paternalLastName,
+            maternalLastName: nutritionist.maternalLastName,
+            email: nutritionist.email,
+            phone: nutritionist.phone,
+            avatarUrl: nutritionist.avatarUrl,
+            professionalLicense: nutritionist.professionalLicense,
+            specialty: nutritionist.specialty,
+            university: nutritionist.university,
+            officeAddress: nutritionist.officeAddress,
+            bio: nutritionist.bio,
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const updateMe = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id)
