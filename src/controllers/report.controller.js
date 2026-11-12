@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { User, ClinicalHistory, MealPlan } from '../models/index.js'
+import { getCurrentWeight, getWeightRecords } from '../services/weight.service.js'
 
 const getDaysAgo = (days) => {
     const date = new Date()
@@ -28,18 +29,6 @@ export const getPatientFollowUp = async (req, res, next) => {
                     localField: '_id',
                     foreignField: 'patient',
                     as: 'appointments',
-                },
-            },
-            {
-                $lookup: {
-                    from: 'measurements',
-                    let: { patientId: '$_id' },
-                    pipeline: [
-                        { $match: { $expr: { $eq: ['$patient', '$$patientId'] } } },
-                        { $sort: { date: -1 } },
-                        { $limit: 1 },
-                    ],
-                    as: 'lastMeasurement',
                 },
             },
             {
@@ -75,7 +64,6 @@ export const getPatientFollowUp = async (req, res, next) => {
                     totalConsultations: { $size: '$consultations' },
                     lastConsultation: { $max: '$consultations.date' },
                     nextAppointment: { $min: '$upcomingAppointments.dateTime' },
-                    currentWeightKg: { $arrayElemAt: ['$lastMeasurement.weightKg', 0] },
                     weightGoalKg: { $arrayElemAt: ['$clinicalHistory.weightGoalKg', 0] },
                 },
             },
@@ -94,6 +82,11 @@ export const getPatientFollowUp = async (req, res, next) => {
             { $sort: { needsFollowUp: -1, daysSinceLastConsultation: -1 } },
         ])
 
+        // El peso actual sale del servicio: el registro más reciente, sea medición o consulta
+        for (const patient of report) {
+            patient.currentWeightKg = await getCurrentWeight(patient._id)
+        }
+
         res.json(report)
     } catch (error) {
         next(error)
@@ -102,51 +95,38 @@ export const getPatientFollowUp = async (req, res, next) => {
 
 export const getWeightProgress = async (req, res, next) => {
     try {
-        const nutritionistId = new mongoose.Types.ObjectId(req.user.id)
         const days = Number(req.query.days) || 90
         const since = getDaysAgo(days)
 
-        const report = await User.aggregate([
-            { $match: { role: 'patient', nutritionist: nutritionistId } },
-            {
-                $lookup: {
-                    from: 'measurements',
-                    localField: '_id',
-                    foreignField: 'patient',
-                    as: 'measurements',
-                },
-            },
-            { $unwind: '$measurements' },
-            { $match: { 'measurements.date': { $gte: since } } },
-            { $sort: { 'measurements.date': 1 } },
-            {
-                $group: {
-                    _id: '$_id',
-                    firstName: { $first: '$firstName' },
-                    paternalLastName: { $first: '$paternalLastName' },
-                    initialWeightKg: { $first: '$measurements.weightKg' },
-                    currentWeightKg: { $last: '$measurements.weightKg' },
-                    totalMeasurements: { $sum: 1 },
-                },
-            },
-            {
-                $addFields: {
-                    changeKg: { $round: [{ $subtract: ['$currentWeightKg', '$initialWeightKg'] }, 1] },
-                    changePct: {
-                        $round: [
-                            {
-                                $multiply: [
-                                    { $divide: [{ $subtract: ['$currentWeightKg', '$initialWeightKg'] }, '$initialWeightKg'] },
-                                    100,
-                                ],
-                            },
-                            1,
-                        ],
-                    },
-                },
-            },
-            { $sort: { changeKg: 1 } },
-        ])
+        const patients = await User.find({ role: 'patient', nutritionist: req.user.id }).select('firstName paternalLastName')
+
+        // Por paciente: su primer y su último peso del periodo, de mediciones y de consultas
+        const report = []
+        for (const patient of patients) {
+            const records = await getWeightRecords(patient._id, since)
+
+            if (records.length === 0) {
+                continue
+            }
+
+            const initialWeightKg = records[0].weightKg
+            const currentWeightKg = records[records.length - 1].weightKg
+            const changeKg = Number((currentWeightKg - initialWeightKg).toFixed(1))
+
+            report.push({
+                _id: patient._id,
+                firstName: patient.firstName,
+                paternalLastName: patient.paternalLastName,
+                initialWeightKg,
+                currentWeightKg,
+                totalMeasurements: records.length,
+                changeKg,
+                changePct: Number(((changeKg / initialWeightKg) * 100).toFixed(1)),
+            })
+        }
+
+        // Primero los que más bajaron
+        report.sort((a, b) => a.changeKg - b.changeKg)
 
         res.json({ days, patients: report })
     } catch (error) {
