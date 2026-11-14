@@ -1,5 +1,6 @@
 import { User, ClinicalHistory } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
+import { logTestCredentials } from '../utils/test-credentials.js'
 
 const ONBOARDING_FIELDS = [
     'identification',
@@ -58,6 +59,8 @@ export const completeOnboarding = async (req, res, next) => {
 
         user.onboardingCompleted = true
         await user.save()
+
+        logTestCredentials('Onboarding completado', { correo: user.email })
 
         res.json({ message: 'Onboarding completado', clinicalHistory })
     } catch (error) {
