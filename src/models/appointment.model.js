@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 export const APPOINTMENT_MODALITIES = ['in-person', 'video-call'];
-export const APPOINTMENT_STATUSES = ['scheduled', 'rescheduled', 'cancelled',
+// 'requested': el paciente la solicitó y el nutriólogo aún no la acepta
+export const APPOINTMENT_STATUSES = ['requested', 'scheduled', 'rescheduled', 'cancelled',
     'completed'];
 const appointmentSchema = new Schema(
     {

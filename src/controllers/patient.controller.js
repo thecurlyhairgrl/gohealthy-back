@@ -5,6 +5,7 @@ import { HttpError } from '../utils/http-error.js'
 import { sendWelcomeEmail } from '../emails/account-emails.js'
 import { calculateAdherence } from '../services/adherence.service.js'
 import { getCurrentWeight } from '../services/weight.service.js'
+import { logTestCredentials } from '../utils/test-credentials.js'
 
 const SALT_ROUNDS = 10
 
@@ -111,6 +112,8 @@ export const createPatient = async (req, res, next) => {
         }
 
         let emailSent = true
+        logTestCredentials('Acceso de paciente', { correo: patient.email, contraseñaTemporal: temporaryPassword })
+
         try {
             await sendWelcomeEmail(patient, temporaryPassword)
         } catch (error) {
@@ -175,6 +178,8 @@ export const resendAccess = async (req, res, next) => {
         patient.passwordHash = await bcrypt.hash(temporaryPassword, SALT_ROUNDS)
         patient.mustChangePassword = true
         await patient.save()
+
+        logTestCredentials('Acceso de paciente', { correo: patient.email, contraseñaTemporal: temporaryPassword })
 
         try {
             await sendWelcomeEmail(patient, temporaryPassword)

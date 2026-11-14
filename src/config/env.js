@@ -7,6 +7,8 @@ export const env = {
   emailAppPassword: process.env.EMAIL_APP_PASSWORD,
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '8h',
+  // Solo para pruebas: imprime en la terminal las contraseñas y códigos que se generan
+  showTestCredentials: process.env.SHOW_TEST_CREDENTIALS === 'true',
 }
 if (!env.mongodbUri) {
   throw new Error('Falta la variable MONGODB_URI en el archivo .env')

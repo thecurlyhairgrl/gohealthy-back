@@ -2,6 +2,7 @@ import { Appointment, User } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
 import {
     sendAppointmentScheduledEmail,
+    sendAppointmentRequestedEmail,
     sendAppointmentRescheduledEmail,
     sendAppointmentCancelledEmail,
 } from '../emails/appointment-emails.js'
@@ -67,32 +68,116 @@ export const getAppointmentById = async (req, res, next) => {
     }
 }
 
-export const createAppointment = async (req, res, next) => {
-    try {
-        const { patientId, dateTime, durationMin, modality, reason, notes } = req.body
+// ¿El horario choca con otra cita del nutriólogo que no esté cancelada?
+// `ignoreId` es la cita que se está moviendo, para que no choque consigo misma
+const findConflict = async (nutritionistId, dateTime, durationMin, ignoreId = null) => {
+    const start = new Date(dateTime)
+    const end = new Date(start.getTime() + durationMin * 60000)
+    const dayStart = new Date(start.getTime() - 24 * 60 * 60000)
 
-        if (!patientId) {
-            throw new HttpError(400, 'Falta el patientId')
+    const nearby = await Appointment.find({
+        nutritionist: nutritionistId,
+        status: { $ne: 'cancelled' },
+        dateTime: { $gte: dayStart, $lt: end },
+    })
+
+    return nearby.find((other) => {
+        if (ignoreId && other._id.equals(ignoreId)) {
+            return false
+        }
+        const otherStart = other.dateTime
+        const otherEnd = new Date(otherStart.getTime() + other.durationMin * 60000)
+        return start < otherEnd && otherStart < end
+    })
+}
+
+// Horarios ocupados de un día, sin datos de los pacientes.
+// El paciente ve los de su nutriólogo para elegir uno libre al solicitar una cita
+export const getAvailability = async (req, res, next) => {
+    try {
+        const { date } = req.query
+
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date))) {
+            throw new HttpError(400, 'La fecha es obligatoria y debe tener el formato AAAA-MM-DD')
         }
 
-        const patient = await User.findOne({ _id: patientId, role: 'patient', nutritionist: req.user.id })
+        let nutritionistId = req.user.id
+        if (req.user.role === 'patient') {
+            const patient = await User.findById(req.user.id)
+            nutritionistId = patient.nutritionist
+        }
+
+        // El día completo en la hora de México
+        const from = new Date(`${date}T00:00:00-06:00`)
+        const to = new Date(`${date}T23:59:59-06:00`)
+
+        const appointments = await Appointment.find({
+            nutritionist: nutritionistId,
+            status: { $ne: 'cancelled' },
+            dateTime: { $gte: from, $lte: to },
+        })
+            .sort({ dateTime: 1 })
+            .select('dateTime durationMin -_id')
+
+        res.json(appointments)
+    } catch (error) {
+        next(error)
+    }
+}
+
+// El nutriólogo agenda una cita; el paciente solo puede solicitarla (queda 'requested')
+export const createAppointment = async (req, res, next) => {
+    try {
+        const { dateTime, durationMin = 60, modality, reason, notes } = req.body
+        const isPatient = req.user.role === 'patient'
+
+        let patient
+        if (isPatient) {
+            patient = await User.findById(req.user.id)
+        } else {
+            if (!req.body.patientId) {
+                throw new HttpError(400, 'Falta el patientId')
+            }
+            patient = await User.findOne({ _id: req.body.patientId, role: 'patient', nutritionist: req.user.id })
+        }
 
         if (!patient) {
             throw new HttpError(404, 'Paciente no encontrado')
         }
 
+        if (!dateTime) {
+            throw new HttpError(400, 'Falta la fecha y hora de la cita')
+        }
+
+        if (new Date(dateTime) < new Date()) {
+            throw new HttpError(400, 'La cita debe ser en una fecha futura')
+        }
+
+        const nutritionistId = isPatient ? patient.nutritionist : req.user.id
+
+        if (await findConflict(nutritionistId, dateTime, durationMin)) {
+            throw new HttpError(409, 'Ese horario ya está ocupado. Elige otro')
+        }
+
         const appointment = await Appointment.create({
             patient: patient._id,
-            nutritionist: req.user.id,
+            nutritionist: nutritionistId,
             dateTime,
             durationMin,
             modality,
             reason,
-            notes,
+            // Las notas son del nutriólogo
+            notes: isPatient ? undefined : notes,
+            status: isPatient ? 'requested' : 'scheduled',
         })
 
         try {
-            await sendAppointmentScheduledEmail(patient, appointment)
+            if (isPatient) {
+                const nutritionist = await User.findById(nutritionistId)
+                await sendAppointmentRequestedEmail(nutritionist, patient, appointment)
+            } else {
+                await sendAppointmentScheduledEmail(patient, appointment)
+            }
         } catch (error) {
             console.error('No se pudo enviar el correo de la cita:', error.message)
         }
@@ -113,6 +198,7 @@ export const updateAppointment = async (req, res, next) => {
 
         const { dateTime, durationMin, modality, reason, notes, status } = req.body
         const previousDateTime = appointment.dateTime.getTime()
+        const previousStatus = appointment.status
 
         if (dateTime !== undefined) {
             appointment.dateTime = dateTime
@@ -138,11 +224,20 @@ export const updateAppointment = async (req, res, next) => {
             appointment.status = 'rescheduled'
         }
 
+        if (wasRescheduled && (await findConflict(req.user.id, appointment.dateTime, appointment.durationMin, appointment._id))) {
+            throw new HttpError(409, 'Ese horario ya está ocupado. Elige otro')
+        }
+
+        // Aceptar una solicitud del paciente
+        const wasAccepted = previousStatus === 'requested' && appointment.status === 'scheduled'
+
         await appointment.save()
 
         const patient = await User.findById(appointment.patient)
         try {
-            if (wasRescheduled) {
+            if (wasAccepted) {
+                await sendAppointmentScheduledEmail(patient, appointment)
+            } else if (wasRescheduled) {
                 await sendAppointmentRescheduledEmail(patient, appointment)
             } else if (status === 'cancelled') {
                 await sendAppointmentCancelledEmail(patient, appointment)

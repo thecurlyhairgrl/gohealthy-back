@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { authenticate, authorize } from '../middlewares/auth.js'
 import {
     getAppointments,
+    getAvailability,
     getAppointmentById,
     createAppointment,
     updateAppointment,
@@ -12,8 +13,10 @@ const router = Router()
 router.use(authenticate)
 
 router.get('/', getAppointments)
+router.get('/availability', getAvailability)
 router.get('/:id', getAppointmentById)
-router.post('/', authorize('nutritionist'), createAppointment)
+// El nutriólogo agenda; el paciente solicita (queda 'requested')
+router.post('/', createAppointment)
 router.put('/:id', authorize('nutritionist'), updateAppointment)
 
 export default router

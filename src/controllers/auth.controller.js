@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { User } from '../models/index.js'
 import { HttpError } from '../utils/http-error.js'
+import { logTestCredentials } from '../utils/test-credentials.js'
 import { env } from '../config/env.js'
 import { saveImage, AVATAR_SIZE } from '../utils/image.js'
 import { sendPasswordResetCode, sendPasswordChangedEmail } from '../emails/account-emails.js'
@@ -97,6 +98,8 @@ export const register = async (req, res, next) => {
             passwordHash,
             role: 'nutritionist',
         })
+
+        logTestCredentials('Registro de nutriólogo', { correo: user.email, contraseña: password })
 
         res.status(201).json({ token: createToken(user), user: toPublicUser(user) })
     } catch (error) {
@@ -257,6 +260,8 @@ export const changePassword = async (req, res, next) => {
         user.mustChangePassword = false
         await user.save()
 
+        logTestCredentials('Cambio de contraseña', { correo: user.email, contraseña: newPassword })
+
         try {
             await sendPasswordChangedEmail(user)
         } catch (error) {
@@ -290,6 +295,8 @@ export const forgotPassword = async (req, res, next) => {
                 attempts: 0,
             }
             await user.save()
+
+            logTestCredentials('Código de recuperación', { correo: user.email, código: code })
 
             try {
                 await sendPasswordResetCode(user, code)
@@ -328,6 +335,8 @@ export const resetPassword = async (req, res, next) => {
         user.passwordReset = undefined
         user.mustChangePassword = false
         await user.save()
+
+        logTestCredentials('Recuperación de contraseña', { correo: user.email, contraseña: newPassword })
 
         try {
             await sendPasswordChangedEmail(user)

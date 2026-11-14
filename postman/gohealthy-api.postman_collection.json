@@ -346,6 +346,16 @@
                 "me",
                 "nutritionist"
               ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{nutritionistToken}}",
+                  "type": "string"
+                }
+              ]
             }
           },
           "event": [
@@ -1754,7 +1764,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-03T16:00:00.000Z\",\n  \"durationMin\": 60,\n  \"reason\": \"Primera consulta\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"{{appointmentDate}}\",\n  \"durationMin\": 60,\n  \"reason\": \"Primera consulta\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1763,6 +1773,24 @@
             }
           },
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Fechas futuras: la API no acepta citas en el pasado",
+                  "const pad = (v) => String(v).padStart(2, '0');",
+                  "const at = (days, hour, minutes = 0) => { const x = new Date(); x.setUTCDate(x.getUTCDate() + days); x.setUTCHours(hour, minutes, 0, 0); return x.toISOString() };",
+                  "const day = (days) => { const x = new Date(Date.now() + days * 864e5); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}` };",
+                  "pm.collectionVariables.set('appointmentDate', at(2, 16));",
+                  "pm.collectionVariables.set('appointmentRescheduleDate', at(3, 17));",
+                  "pm.collectionVariables.set('appointmentCancelDate', at(4, 16));",
+                  "pm.collectionVariables.set('requestDay', day(5));",
+                  "pm.collectionVariables.set('requestDate', at(5, 18));",
+                  "pm.collectionVariables.set('requestConflictDate', at(5, 18, 30));"
+                ]
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -1893,7 +1921,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"dateTime\": \"2026-11-04T17:00:00.000Z\"\n}",
+              "raw": "{\n  \"dateTime\": \"{{appointmentRescheduleDate}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1977,7 +2005,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2026-11-10T16:00:00.000Z\"\n}",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"{{appointmentCancelDate}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2035,6 +2063,243 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cita en el pasado (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patientId}}\",\n  \"dateTime\": \"2020-01-01T16:00:00.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paciente solicita cita",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dateTime\": \"{{requestDate}}\",\n  \"modality\": \"video-call\",\n  \"reason\": \"Dudas sobre el plan\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Queda solicitada', () => pm.expect(pm.response.json().status).to.eql('requested'));",
+                  "pm.collectionVariables.set('requestedAppointmentId', pm.response.json()._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Disponibilidad del día (paciente)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/appointments/availability?date={{requestDay}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "availability"
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "{{requestDay}}"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Trae el horario ocupado, sin datos del paciente', () => {",
+                  "  const busy = pm.response.json();",
+                  "  pm.expect(busy.length).to.be.at.least(1);",
+                  "  pm.expect(busy[0]).to.not.have.property('patient');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Solicitud que choca con otra cita (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dateTime\": \"{{requestConflictDate}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{patientToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Aceptar solicitud",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/appointments/{{requestedAppointmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "appointments",
+                "{{requestedAppointmentId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"scheduled\",\n  \"notes\": \"Llevar sus dudas por escrito\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Queda programada', () => pm.expect(pm.response.json().status).to.eql('scheduled'));"
                 ]
               }
             }
@@ -3093,9 +3358,9 @@
           ]
         },
         {
-          "name": "Paciente crea cita",
+          "name": "Paciente intenta aceptar una cita (403)",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "header": [
               {
                 "key": "Content-Type",
@@ -3103,12 +3368,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/appointments",
+              "raw": "{{baseUrl}}/appointments/{{appointmentId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "appointments"
+                "appointments",
+                "{{appointmentId}}"
               ]
             },
             "auth": {
@@ -3123,7 +3389,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{}",
+              "raw": "{\n  \"status\": \"scheduled\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -5099,6 +5365,34 @@
     },
     {
       "key": "nutritionistDocumentId",
+      "value": ""
+    },
+    {
+      "key": "appointmentDate",
+      "value": ""
+    },
+    {
+      "key": "appointmentRescheduleDate",
+      "value": ""
+    },
+    {
+      "key": "appointmentCancelDate",
+      "value": ""
+    },
+    {
+      "key": "requestDay",
+      "value": ""
+    },
+    {
+      "key": "requestDate",
+      "value": ""
+    },
+    {
+      "key": "requestConflictDate",
+      "value": ""
+    },
+    {
+      "key": "requestedAppointmentId",
       "value": ""
     }
   ]
